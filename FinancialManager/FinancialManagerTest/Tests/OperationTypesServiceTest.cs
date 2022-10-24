@@ -49,8 +49,8 @@ namespace FinancialManagerTest.Tests
             var context = new MockFinancialManagerContext();
             var service = new OperationTypeService(context);
             await service.DeleteAsync(12);
-            Assert.Single(await service.GetAllAsync());
-            Assert.Equal(2, (await new FinancialOperationService(context).GetAllAsync()).Count());
+            Assert.Equal(1, context.OperationTypes.Count());
+            Assert.Equal(2, context.FinancialOperations.Count());
         }
 
         [Fact]
@@ -87,14 +87,15 @@ namespace FinancialManagerTest.Tests
         [Fact]
         public async Task TestPostObject()
         {
-            var service = CreateService();
+            var context = new MockFinancialManagerContext();
+            var service = new OperationTypeService(context);
             await service.AddAsync(new OperationType()
             {
                 Id = 1,
                 Name = "Test",
                 IsIncome = true,
             });
-            Assert.Equal(3, (await service.GetAllAsync()).Count());
+            Assert.Equal(3, context.OperationTypes.Count());
         }
 
         private OperationTypeService CreateService()

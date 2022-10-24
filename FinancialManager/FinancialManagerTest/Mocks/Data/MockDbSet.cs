@@ -10,33 +10,29 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Net.Sockets;
 using System.Reflection.Metadata;
 using MockQueryable.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FinancialManagerTest.Mocks.Data
 {
-    internal class MockDbSet<T> : Mock<DbSet<T>> where T : class
+    internal class MockDbSet<TEntity> : Mock<DbSet<TEntity>> where TEntity : class
     {
-        IQueryable<T> _query;
-        List<T> _entities;
-        public MockDbSet(List<T> entities)
+        IQueryable<TEntity> _query;
+        List<TEntity> _entities;
+        public MockDbSet(List<TEntity> entities)
         {
             _entities = entities;
             _query = entities.AsQueryable();
-            As<IAsyncEnumerable<T>>()
-                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
-                .Returns(new TestAsyncEnumerator<T>(_query.GetEnumerator()));
-
-            As<IQueryable<T>>()
+            As<IQueryable<TEntity>>()
                 .Setup(m => m.Provider)
-                .Returns(new TestAsyncEnumerableEfCore<T>(_query));
+                .Returns(new TestAsyncEnumerableEfCore<TEntity>(_query));
 
-            As<IQueryable<T>>().Setup(m => m.Expression).Returns(_query.Expression);
-            As<IQueryable<T>>().Setup(m => m.ElementType).Returns(_query.ElementType);
-            As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => _entities.GetEnumerator());
-            As<IAsyncEnumerable<T>>()
+            As<IQueryable<TEntity>>().Setup(m => m.Expression).Returns(_query.Expression);
+            As<IQueryable<TEntity>>().Setup(m => m.ElementType).Returns(_query.ElementType);
+            As<IAsyncEnumerable<TEntity>>()
                 .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
-                .Returns(new TestAsyncEnumerator<T>(_entities.GetEnumerator()));
-            Setup(m => m.Add(It.IsAny<T>()))
-                .Callback<T>(entity => _entities.Add(entity));
+                .Returns(new TestAsyncEnumerator<TEntity>(entities.GetEnumerator()));
+            Setup(m => m.Remove(It.IsAny<TEntity>())).Callback<TEntity>(entity => entities.Remove(entity));
+            Setup(m => m.Add(It.IsAny<TEntity>())).Callback<TEntity>(entity => entities.Add(entity));
         }
     }
 }

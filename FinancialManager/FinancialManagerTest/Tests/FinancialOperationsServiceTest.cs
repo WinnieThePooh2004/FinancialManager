@@ -46,9 +46,10 @@ namespace FinancialManagerTest.Tests
         [Fact]
         public async Task TestDeleteObject()
         {
-            var service = CreateService();
+            var context = new MockFinancialManagerContext();
+            var service = new FinancialOperationService(context);
             await service.DeleteAsync(123);
-            Assert.Equal(3, (await service.GetAllAsync()).Count());
+            Assert.Equal(3, context.FinancialOperations.Count());
         }
 
         [Fact]
@@ -89,7 +90,8 @@ namespace FinancialManagerTest.Tests
         [Fact]
         public async Task TestPostObject()
         {
-            var service = CreateService();
+            var context = new MockFinancialManagerContext();
+            var service = new FinancialOperationService(context);
             await service.AddAsync(new FinancialOperation()
             {
                 Id = 1,
@@ -97,7 +99,7 @@ namespace FinancialManagerTest.Tests
                 Amount = 123,
                 OperationTypeId = 12
             });
-            Assert.Equal(5, (await service.GetAllAsync()).Count());
+            Assert.Equal(5, context.FinancialOperations.Count());
         }
 
         [Fact]
