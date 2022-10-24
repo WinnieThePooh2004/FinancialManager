@@ -7,7 +7,7 @@ namespace FinancialManager.MapperProfiles.FinancialOperations
     {
         public FinancialOperationDetailsProfile()
         {
-            CreateMap<FinacialOperation, FinancialOperationDetailsDto>()
+            CreateMap<FinancialOperation, FinancialOperationDetailsDto>()
                 .ForMember(
                     dest => dest.Amount,
                     opt => opt.MapFrom(c => ((double)c.Amount / 100).ToString("0.00") + " UAH")

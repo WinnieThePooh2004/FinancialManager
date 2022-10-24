@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FinancialManager.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using FinancialManager.Models;
 using FinancialManager.DTOs.OperationTypes;
 using AutoMapper;
+using FinancialManager.Services.CRUDServices;
 
 namespace FinancialManager.Controllers
 {
@@ -16,34 +10,29 @@ namespace FinancialManager.Controllers
     [ApiController]
     public class OperationTypesController : ControllerBase
     {
-        private readonly FinancialManagerContext _context;
         private readonly IMapper _mapper;
+        private readonly IService<OperationType> _service;
 
-        public OperationTypesController(FinancialManagerContext context, IMapper mapper)
+        public OperationTypesController(IService<OperationType> service, IMapper mapper)
         {
-            _context = context;
             _mapper = mapper;
+            _service = service;
         }
 
         // GET: api/OperationTypes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationTypeIndexDto>>> GetOperationType()
         {
-            return _mapper.Map<List<OperationTypeIndexDto>>(await _context.OperationTypes.ToListAsync());
+            return _mapper.Map<List<OperationTypeIndexDto>>(await _service.GetAllAsync());
         }
 
         // GET: api/OperationTypes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationTypeDetailsDto>> GetOperationType(int id)
         {
-            var operationType = await _context.OperationTypes.FindAsync(id);
+            var entity = await _service.GetAsync(id);
+            return _mapper.Map<OperationTypeDetailsDto>(entity);
 
-            if (operationType == null)
-            {
-                return NotFound();
-            }
-
-            return _mapper.Map<OperationTypeDetailsDto>(operationType);
         }
 
         // PUT: api/OperationTypes/5
@@ -51,35 +40,18 @@ namespace FinancialManager.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOperationType(int id, OperationTypeUpdateDto operationType)
         {
-            if (id != operationType.Id)
-            {
-                return BadRequest();
-            }
-
-            var entity = await _context.OperationTypes.FirstOrDefaultAsync(type => type.Id == id);
-            if (entity == null)
-            {
-                return NotFound();
-            }
-            entity.Name = operationType.Name;
-            entity.IsIncome = bool.Parse(operationType.IsIncome);
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(id, _mapper.Map<OperationType>(operationType));
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex) 
             {
-                if (!OperationTypeExists(id))
+                if(ex.Message == "Not found")
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
             }
-
             return NoContent();
         }
 
@@ -88,9 +60,14 @@ namespace FinancialManager.Controllers
         [HttpPost]
         public async Task<ActionResult> PostOperationType(OperationTypeCreateDto operationType)
         {
-            var entity = _mapper.Map<OperationType>(operationType);
-            _context.OperationTypes.Add(entity);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _service.AddAsync(_mapper.Map<OperationType>(operationType));
+            }
+            catch (Exception) 
+            {
+                return BadRequest();
+            }
 
             return NoContent();
         }
@@ -99,21 +76,15 @@ namespace FinancialManager.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOperationType(int id)
         {
-            var operationType = await _context.OperationTypes.FindAsync(id);
-            if (operationType == null)
+            try
+            {
+                await _service.DeleteAsync(id);
+            }
+            catch (Exception)
             {
                 return NotFound();
             }
-
-            _context.OperationTypes.Remove(operationType);
-            await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool OperationTypeExists(int id)
-        {
-            return _context.OperationTypes.Any(e => e.Id == id);
         }
     }
 }

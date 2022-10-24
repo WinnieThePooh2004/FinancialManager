@@ -8,11 +8,12 @@ namespace FinancialManager.MapperProfiles.FinancialOperations
     {
         public FinancialOperationCreateProfile()
         {
-            CreateMap<FinancialOperationCreateDto, FinacialOperation>()
+            CreateMap<FinancialOperationCreateDto, FinancialOperation>()
                 .ForMember(
                     dest => dest.Amount,
-                    opt => opt.MapFrom(c => (int)(double.Parse(c.Amount) * 100))
+                    opt => opt.MapFrom(c => (int)(c.Amount * 100))
                 );
+
         }
     }
 }

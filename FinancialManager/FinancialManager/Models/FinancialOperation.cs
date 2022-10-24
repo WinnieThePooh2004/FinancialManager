@@ -2,7 +2,7 @@
 
 namespace FinancialManager.Models
 {
-    public class FinacialOperation
+    public class FinancialOperation
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

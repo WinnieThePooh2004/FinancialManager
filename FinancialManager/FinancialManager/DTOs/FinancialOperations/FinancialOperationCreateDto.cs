@@ -4,7 +4,7 @@
     {
         public DateTime DateTime { get; set; } = default!;
         public string Description { get; set; } = default!;
-        public string Amount { get; set; } = default!;
+        public double Amount { get; set; } = default!;
         public int OperationTypeId { get; set; }
     }
 }

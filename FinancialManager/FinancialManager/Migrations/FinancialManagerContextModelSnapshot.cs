@@ -22,7 +22,7 @@ namespace FinancialManager.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("FinancialManager.Models.FinacialOperation", b =>
+            modelBuilder.Entity("FinancialManager.Models.FinancialOperation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -45,7 +45,7 @@ namespace FinancialManager.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FinacialOperations");
+                    b.ToTable("FinancialOperations");
                 });
 
             modelBuilder.Entity("FinancialManager.Models.OperationType", b =>

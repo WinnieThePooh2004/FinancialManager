@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FinancialManager.Models;
 using Microsoft.EntityFrameworkCore;
-using FinancialManager.Models;
 
 namespace FinancialManager.Data
 {
-    public class FinancialManagerContext : DbContext
+    public class FinancialManagerContext : DbContext, IFinancialManagerContext
     {
-        public FinancialManagerContext (DbContextOptions<FinancialManagerContext> options)
+        public FinancialManagerContext(DbContextOptions<FinancialManagerContext> options)
             : base(options)
         {
         }
-        public DbSet<FinancialManager.Models.FinacialOperation> FinacialOperations { get; set; } = default!;
-        public DbSet<FinancialManager.Models.OperationType> OperationTypes { get; set; } = default!;
+        public DbSet<FinancialOperation> FinancialOperations { get; set; } = default!;
+
+        public DbSet<OperationType> OperationTypes { get; set; } = default!;
+
+        public async Task SaveChangesAsync()
+        {
+            await base.SaveChangesAsync();
+            IQueryable<FinancialOperation> queryable = FinancialOperations;
+        }
+
     }
 }
