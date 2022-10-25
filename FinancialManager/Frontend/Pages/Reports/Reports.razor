@@ -1,0 +1,66 @@
+﻿@page "/Reports"
+
+@using FinancialManager.DTOs.Reports;
+@using AppHttpClient
+
+@inject AppHttpClient client
+@inject NavigationManager manager
+
+<div class="input-group col">
+    <input type="datetime" class="form-control" placeholder="Enter report date"
+           @bind="InputDailyReportDate" width="500"  />
+</div>
+<br />
+<button class="btn btn-outline-dark" @onclick="ShowDailyReport">
+    <i class="fas fa-times"></i>
+    <p>Get daily report</p>
+</button>
+
+<br />
+<br />
+<div class="input-group col">
+    <input type="datetime" class="form-control" placeholder="Enter period report date start"
+           @bind="InputPeriodStart" />
+</div>
+<br />
+<div class="input-group col">
+    <input type="datetime" class="form-control" placeholder="Enter period report date end"
+           @bind="InputPeriodEnd" />
+</div>
+<br />
+<button class="btn btn-outline-dark" @onclick="ShowPeriodReport">
+    <i class="fas fa-times"></i>
+    <p>Get period report</p>
+</button>
+
+@code {
+
+    public string InputDailyReportDate { get; set; } = default!;
+    public string InputPeriodStart { get; set; } = default!;
+    public string InputPeriodEnd { get; set; } = default!;
+
+    public ReportDetailsDto? report { get; set; } = null;
+
+    public void ShowDailyReport()
+    {
+        if(DateTime.TryParse(InputDailyReportDate, out DateTime date))
+        {
+            manager.NavigateTo($"/Reports/Daily?date={date}");
+        }
+        else
+        {
+            InputDailyReportDate = "";
+        }
+    }
+    public void ShowPeriodReport()
+    {
+        if (DateTime.TryParse(InputPeriodStart, out DateTime start) && DateTime.TryParse(InputPeriodEnd, out DateTime end))
+        {
+            manager.NavigateTo($"/Reports/Period?periodStart={start}&periodEnd={end}");
+        }
+        else
+        {
+            InputDailyReportDate = "";
+        }
+    }
+}

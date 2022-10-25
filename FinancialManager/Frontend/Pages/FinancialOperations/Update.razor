@@ -1,0 +1,72 @@
+﻿@page "/FinancialOperations/Update/{id:int}"
+
+@using AppHttpClient
+@using FinancialManager.DTOs.FinancialOperations;
+
+@inject NavigationManager manager
+@inject AppHttpClient client
+
+<h3>Update "@_updateDto.Description" operation</h3>
+
+<EditForm Model = "_updateDto" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="DateTime" class="form-label">Date Time</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_updateDto.DateTime" />
+        </div>
+        <ValidationMessage For="@(() => _updateDto.DateTime)" />
+    </div>
+    <div class="mb-3">
+        <label for="Amount" class="form-label">Amount</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_updateDto.Amount" />
+        </div>
+        <ValidationMessage For="@(() => _updateDto.Amount)" />
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_updateDto.Description" />
+        </div>
+        <ValidationMessage For="@(() => _updateDto.Description)" />
+    </div>
+    <div class="mb-3">
+        <label for="OperationTypeId" class="form-label">Operation type id</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_updateDto.OperationTypeId" />
+        </div>
+        <ValidationMessage For="@(() => _updateDto.OperationTypeId)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Back">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id{ get; set; }
+    protected FinancialOperationUpdateDto _updateDto = new();
+
+    protected override void OnInitialized()
+    {
+        var entity = client.GetObjects<FinancialOperationDetailsDto>($"{AppHttpClient.FinancialOperationUrl}/{Id}");
+        _updateDto.Id = entity.Id;
+        _updateDto.Description = entity.Description;
+        _updateDto.DateTime = entity.DateTime;
+        _updateDto.Amount = entity.Amount.Remove(entity.Amount.Length - 4);
+        _updateDto.OperationTypeId = entity.OperationTypeId.ToString();
+    }
+
+    protected async Task Save()
+    {
+        await client.PutObject($"{AppHttpClient.FinancialOperationUrl}/{Id}", _updateDto);
+        Back();
+    }
+
+    protected void Back()
+    {
+        manager.NavigateTo("/FinancialOperations");
+    }
+}

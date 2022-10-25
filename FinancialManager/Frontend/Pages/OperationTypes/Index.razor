@@ -1,0 +1,64 @@
+﻿@page "/OperationTypes"
+
+<PageTitle>Weather forecast</PageTitle>
+
+@using Frontend.Data
+@using FinancialManager.DTOs.OperationTypes
+@using Newtonsoft.Json
+@using AppHttpClient
+@inject AppHttpClient client
+
+<h1>Your incomes and expenses:</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <a href='/OperationTypes/create/' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add
+        </a>
+    </div>
+</div>
+<br />
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>IsIncome</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var operation in Operations)
+        {
+            <tr>
+                <td>@operation.Id</td>
+                <td>@operation.Name</td>
+                <td>@operation.IsIncome</td>
+                <td>
+                    <a href='/OperationTypes/Update/@operation.Id' class="btn btn-outline-dark" role="button">
+                        Edit
+                    </a>
+                    <a href='/OperationTypes/Details/@operation.Id' class="btn btn-outline-dark" role="button">
+                        Details
+                    </a>
+                    <a href='/OperationTypes/delete/@operation.Id' class="btn btn-outline-danger" role="button">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<OperationTypeIndexDto> Operations { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        Operations = client.GetObjects<List<OperationTypeIndexDto>>(AppHttpClient.OperationTypesUrl);
+    }
+    public List<OperationTypeIndexDto> GetAll()
+    {
+        return client.GetObjects<List<OperationTypeIndexDto>>(AppHttpClient.OperationTypesUrl);//async version does not work
+    }
+}

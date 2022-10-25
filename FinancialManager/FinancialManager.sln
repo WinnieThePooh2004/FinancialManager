@@ -5,7 +5,9 @@ VisualStudioVersion = 17.4.33015.44
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager", "FinancialManager\FinancialManager.csproj", "{EF54667E-662B-4013-8E06-AACB76ABAC0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManagerTest", "FinancialManagerTest\FinancialManagerTest.csproj", "{623FD5DB-089F-467A-A128-AB9AB8B23814}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManagerTest", "FinancialManagerTest\FinancialManagerTest.csproj", "{623FD5DB-089F-467A-A128-AB9AB8B23814}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frontend", "Frontend\Frontend.csproj", "{40364892-F104-4952-AC34-C194A0BB7844}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{623FD5DB-089F-467A-A128-AB9AB8B23814}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623FD5DB-089F-467A-A128-AB9AB8B23814}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623FD5DB-089F-467A-A128-AB9AB8B23814}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40364892-F104-4952-AC34-C194A0BB7844}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40364892-F104-4952-AC34-C194A0BB7844}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40364892-F104-4952-AC34-C194A0BB7844}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40364892-F104-4952-AC34-C194A0BB7844}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,62 @@
+﻿@page "/FinancialOperations"
+
+<PageTitle>Financial operations</PageTitle>
+
+@using Frontend.Data
+@using FinancialManager.DTOs.FinancialOperations
+@using Newtonsoft.Json
+@using AppHttpClient
+@inject AppHttpClient client
+
+<h1>Your financial operation:</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <a href='/FinancialOperations/create/' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add
+        </a>
+    </div>
+</div>
+<br />
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+        <tr>
+            <th>Date and time</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Operation type id</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var operation in Operations)
+        {
+            <tr>
+                <td>@operation.DateTime</td>
+                <td>@operation.Amount</td>
+                <td>@operation.Description</td>
+                <td>@operation.OperationTypeId</td>
+                <td>
+                    <a href='/FinancialOperations/Update/@operation.Id' class="btn btn-outline-dark" role="button">
+                        Edit
+                    </a>
+                    <a href='/FinancialOperations/Details/@operation.Id' class="btn btn-outline-dark" role="button">
+                        Details
+                    </a>
+                    <a href='/FinancialOperations/delete/@operation.Id' class="btn btn-outline-danger" role="button">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<FinancialOperationIndexDto> Operations { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        Operations = client.GetObjects<List<FinancialOperationIndexDto>>(AppHttpClient.FinancialOperationUrl);
+    }
+}

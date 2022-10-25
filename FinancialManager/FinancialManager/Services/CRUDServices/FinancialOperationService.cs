@@ -57,7 +57,7 @@ namespace FinancialManager.Services.CRUDServices
             var dbEntity = await _context.FinancialOperations.FirstOrDefaultAsync(operation => operation.Id == id);
             if (dbEntity is null)
             {
-                throw new HttpRequestException("Not founded");
+                throw new HttpRequestException("Not found");
             }
             dbEntity.Description = entity.Description;
             dbEntity.Amount = entity.Amount;

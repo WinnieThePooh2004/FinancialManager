@@ -1,0 +1,51 @@
+﻿@page "/OperationTypes/delete/{id:int}"
+<h3>Delete</h3>
+
+@using AppHttpClient;
+@using FinancialManager.DTOs.OperationTypes
+
+@inject NavigationManager manager
+@inject AppHttpClient client
+<div class="form-group">
+    <h4>Do you want to delete @_objectForDelete.Name operation type?</h4>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Id</td>
+                <td>@_objectForDelete.Id</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>@_objectForDelete.Name</td>
+            </tr>
+            <tr>
+                <td>Is income</td>
+                <td>@_objectForDelete.IsIncome</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <input type="submit" value="Delete" @onclick="(async () => await RemoveUser(_objectForDelete.Id))" class="btn btn-danger" />
+    <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+</div>
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public OperationTypeDetailsDto _objectForDelete = new();
+
+    protected override void OnInitialized()
+    {
+        _objectForDelete = client.GetObjects<OperationTypeDetailsDto>($"{AppHttpClient.OperationTypesUrl}/{Id}");
+    }
+
+    protected async Task RemoveUser(int id)
+    {
+        await client.DeleteObject(AppHttpClient.OperationTypesUrl, id);
+        manager.NavigateTo("/OperationTypes");
+    }
+    void Cancel()
+    {
+        manager.NavigateTo("/OperationTypes");
+    }
+}

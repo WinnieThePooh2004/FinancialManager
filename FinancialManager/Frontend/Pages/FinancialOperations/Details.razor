@@ -1,0 +1,59 @@
+﻿@page "/FinancialOperations/details/{id:int}"
+<h3>Delete</h3>
+
+@using AppHttpClient;
+@using FinancialManager.DTOs.FinancialOperations
+
+@inject NavigationManager manager
+@inject AppHttpClient client
+<div class="form-group">
+    <h4>"@_operation.Description" Operation details</h4>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Id</td>
+                <td>@_operation.Id</td>
+            </tr>
+            <tr>
+                <td>Date time</td>
+                <td>@_operation.DateTime</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td>@_operation.Amount</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>@_operation.Description</td>
+            </tr>
+            <tr>
+                <td>Operation type id</td>
+                <td>@_operation.OperationTypeId</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <a href='/FinancialOperations/edit/@_operation.Id' class="btn btn-outline-dark" role="button">
+        Edit
+    </a>
+    <a href='/FinancialOperations/delete/@_operation.Id' class="btn btn-outline-danger" role="button">
+        Delete
+    </a>
+    <input type="submit" value="Back" @onclick="(() => Back())" class="btn btn-warning" />
+</div>
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public FinancialOperationDetailsDto _operation = new();
+
+    protected override async void OnInitialized()
+    {
+        _operation = client.GetObjects<FinancialOperationDetailsDto>($"{AppHttpClient.FinancialOperationUrl}/{Id}");
+    }
+
+    void Back()
+    {
+        manager.NavigateTo("/FinancialOperations");
+    }
+}

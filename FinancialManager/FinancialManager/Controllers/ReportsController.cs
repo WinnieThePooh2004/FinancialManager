@@ -23,9 +23,9 @@ namespace FinancialManager.Controllers
 
         [Route("GetDailyReport")]
         [HttpGet]
-        public async Task<ActionResult<Report>> GetDailyReport([FromQuery] DateTime date)
+        public async Task<ActionResult<ReportDetailsDto>> GetDailyReport([FromQuery] DateTime date)
         {
-            return await _service.DailyReportAsync(date);
+            return _mapper.Map<ReportDetailsDto>(await _service.DailyReportAsync(date));
         }
 
         [Route("GetPeriodReport")]

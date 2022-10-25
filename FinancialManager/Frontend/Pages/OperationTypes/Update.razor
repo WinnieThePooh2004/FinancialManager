@@ -1,0 +1,58 @@
+﻿@page "/OperationTypes/Update/{id:int}"
+
+@using AppHttpClient
+@using FinancialManager.DTOs.OperationTypes;
+
+@inject NavigationManager manager
+@inject AppHttpClient client
+
+<h3>Update "@_updateDto.Name" operation</h3>
+
+<EditForm Model="_updateDto" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_updateDto.Name" />
+        </div>
+        <ValidationMessage For="@(() => _updateDto.Name)" />
+    </div>
+    <div class="mb-3">
+        <label for="IsIncome" class="form-label">IsIncome</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_updateDto.IsIncome" />
+        </div>
+        <ValidationMessage For="@(() => _updateDto.IsIncome)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Back">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    protected OperationTypeUpdateDto _updateDto = new();
+
+    protected override void OnInitialized()
+    {
+        var entity = client.GetObjects<OperationTypeUpdateDto>($"{AppHttpClient.OperationTypesUrl}/{Id}");
+        _updateDto.Id = entity.Id;
+        _updateDto.IsIncome = entity.IsIncome;
+        _updateDto.Name = entity.Name;
+    }
+
+    protected async Task Save()
+    {
+        Console.WriteLine(Id);
+        Console.WriteLine(_updateDto.Id);
+        await client.PutObject($"{AppHttpClient.OperationTypesUrl}/{Id}", _updateDto);
+        Back();
+    }
+
+    protected void Back()
+    {
+        manager.NavigateTo("/OperationTypes");
+    }
+}

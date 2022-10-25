@@ -1,0 +1,67 @@
+﻿@page "/FinancialOperations/Create/"
+
+@using AppHttpClient
+@using FinancialManager.DTOs.FinancialOperations;
+
+@inject NavigationManager manager
+@inject AppHttpClient client
+
+<h3>Add operation</h3>
+
+<EditForm Model="_createDto" OnValidSubmit="Save">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="DateTime" class="form-label">Date Time</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_createDto.DateTime" />
+        </div>
+        <ValidationMessage For="@(() => _createDto.DateTime)" />
+    </div>
+    <div class="mb-3">
+        <label for="Amount" class="form-label">Amount</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_createDto.Amount" />
+        </div>
+        <ValidationMessage For="@(() => _createDto.Amount)" />
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_createDto.Description" />
+        </div>
+        <ValidationMessage For="@(() => _createDto.Description)" />
+    </div>
+    <div class="mb-3">
+        <label for="OperationTypeId" class="form-label">Operation type id</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_createDto.OperationTypeId" />
+        </div>
+        <ValidationMessage For="@(() => _createDto.OperationTypeId)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Back">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    protected FinancialOperationCreateDto _createDto = new();
+
+    protected async Task Save()
+    {
+        try
+        {
+            await client.PostObject(AppHttpClient.FinancialOperationUrl, _createDto);
+        }
+        catch
+        {
+            
+        }
+        manager.NavigateTo("/FinancialOperations");
+    }
+
+    protected void Back()
+    {
+        manager.NavigateTo("/FinancialOperations");
+    }
+}
