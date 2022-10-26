@@ -8,7 +8,7 @@ using FinancialManagerTest.Mocks;
 using FinancialManagerTest.Mocks.Data;
 using FinancialManager.MapperProfiles;
 
-namespace FinancialManagerTest.Tests
+namespace FinancialManagerTest.Tests.BackendTests
 {
     public class TestReportService
     {
@@ -27,7 +27,7 @@ namespace FinancialManagerTest.Tests
         public async Task TestPeriodReport()
         {
             var service = CreateService();
-            var report = await service.PeriodReportAsync(DateTime.Parse("09.11.2002") ,DateTime.Parse("10.12.2002"));
+            var report = await service.PeriodReportAsync(DateTime.Parse("09.11.2002"), DateTime.Parse("10.12.2002"));
             Assert.NotNull(report);
             Assert.Equal(1000, report.TotalExprenses);
             Assert.Equal(1000, report.TotalIncome);
