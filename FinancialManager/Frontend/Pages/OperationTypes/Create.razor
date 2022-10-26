@@ -1,10 +1,11 @@
 ﻿@page "/OperationTypes/Create/"
 
-@using AppHttpClient
+@using HttpService
 @using FinancialManager.DTOs.OperationTypes;
 
 @inject NavigationManager manager
-@inject AppHttpClient client
+@inject HttpService client
+<PageTitle>Add operation type</PageTitle>
 
 <h3>Add new income or expense</h3>
 
@@ -36,7 +37,7 @@
 
     protected async Task Save()
     {
-        await client.PostObject(AppHttpClient.OperationTypesUrl, _createDto);
+        await client.PostObject(HttpService.OperationTypesUrl, _createDto);
         Back();
     }
 

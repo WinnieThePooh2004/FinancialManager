@@ -1,17 +1,18 @@
 ﻿@page "/Reports"
 
 @using FinancialManager.DTOs.Reports;
-@using AppHttpClient
+@using HttpService
 
-@inject AppHttpClient client
+@inject HttpService client
 @inject NavigationManager manager
+<PageTitle>Reports</PageTitle>
 
 <div class="input-group col">
     <input type="datetime" class="form-control" placeholder="Enter report date"
-           @bind="InputDailyReportDate" width="500"  />
+           @bind="InputDailyReportDate" width="500" />
 </div>
 <br />
-<button class="btn btn-outline-dark" @onclick="ShowDailyReport">
+<button class="btn btn-outline-dark" @onclick="ShowDailyReportAsync">
     <i class="fas fa-times"></i>
     <p>Get daily report</p>
 </button>
@@ -28,39 +29,84 @@
            @bind="InputPeriodEnd" />
 </div>
 <br />
-<button class="btn btn-outline-dark" @onclick="ShowPeriodReport">
+<button class="btn btn-outline-dark" @onclick="ShowPeriodReportAsync">
     <i class="fas fa-times"></i>
     <p>Get period report</p>
 </button>
+<br />
+<br />
+@ReportHeader
+@if (Report is not null)
+{
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Total exprenses</td>
+                <td>@Report.TotalExprenses</td>
+            </tr>
+            <tr>
+                <td>Total income</td>
+                <td>@Report.TotalIncome</td>
+            </tr>
+        </tbody>
+    </table>
 
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>Date and time</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Operation type id</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var operation in Report.Operations)
+            {
+                <tr>
+                    <td>@operation.DateTime</td>
+                    <td>@operation.Amount</td>
+                    <td>@operation.Description</td>
+                    <td>@operation.OperationTypeId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <br />
+}
 @code {
 
     public string InputDailyReportDate { get; set; } = default!;
     public string InputPeriodStart { get; set; } = default!;
     public string InputPeriodEnd { get; set; } = default!;
+    public string ReportHeader { get; set; } = "No report yet";
+    public ReportDetailsDto? Report { get; set; }
 
-    public ReportDetailsDto? report { get; set; } = null;
-
-    public void ShowDailyReport()
+    public async Task ShowDailyReportAsync()
     {
-        if(DateTime.TryParse(InputDailyReportDate, out DateTime date))
+        if (DateTime.TryParse(InputDailyReportDate, out DateTime date))
         {
-            manager.NavigateTo($"/Reports/Daily?date={date}");
+            ReportHeader = "Loading...";
+            Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetDailyReport?date={date}");
+            ReportHeader = $"Report for {InputDailyReportDate}";
+            int.Parse("");
         }
         else
         {
-            InputDailyReportDate = "";
+            ReportHeader = "Wrong date input format";
         }
     }
-    public void ShowPeriodReport()
+    public async Task ShowPeriodReportAsync()
     {
         if (DateTime.TryParse(InputPeriodStart, out DateTime start) && DateTime.TryParse(InputPeriodEnd, out DateTime end))
         {
-            manager.NavigateTo($"/Reports/Period?periodStart={start}&periodEnd={end}");
+            ReportHeader = "Loading...";
+            Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetPeriodReport?periodStart={start}&periodEnd={end}");
+            ReportHeader = $"Report for period from {InputPeriodStart} to {InputPeriodEnd}";
         }
         else
         {
-            InputDailyReportDate = "";
+            ReportHeader = "Wrong date input format";
         }
     }
 }

@@ -2,32 +2,44 @@
 using Newtonsoft.Json;
 using static System.Net.WebRequestMethods;
 
-namespace Frontend.AppHttpClient
+namespace Frontend.HttpService
 {
-    public class AppHttpClient
+    public class HttpService
     {
-        public static string FinancialOperationUrl => "https://localhost:7054/api/FinancialOperations";
-        public static string OperationTypesUrl => "https://localhost:7054/api/OperationTypes";
-        public static string ReportUrl => "https://localhost:7054/api/Reports";
+        //work
+        public static string FinancialOperationUrl
+            => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("FinancialOperationsUri")}";
+        //should work : "/api/FinancialOperations" or "api/FinancialOperations"
+        public static string OperationTypesUrl
+            => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("OperationTypesUri")}";
+        public static string ReportUrl
+            => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("ReportsUri")}";
 
-        private HttpClient _client = new();
-        public AppHttpClient()
+        private static readonly HttpClient _client;
+        static HttpService()
         {
-
+            _client = new HttpClient()
+            {
+                BaseAddress = new Uri(System.Configuration.ConfigurationManager.AppSettings.Get("BaseUri") ?? throw new Exception("Config is lost"))
+            };
         }
 
-        public T GetObjects<T>(string url) where T : class
+        public HttpService() 
+        {
+        }
+
+        public async Task<T> GetObjectAsync<T>(string url) where T : class
         {
             Console.WriteLine($"\nSending http get request to {url}\n");
-            using var response = _client.GetAsync(url).Result;
-            if(!response.IsSuccessStatusCode)
+            using var response = await _client.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine($"\nGet request\n{url}\nnot successful\n");
             }
-            using var streamReader = new StreamReader(response.Content.ReadAsStream());
+            using var streamReader = new StreamReader(await response.Content.ReadAsStreamAsync());
             using var reader = new JsonTextReader(streamReader);
             var list = new JsonSerializer().Deserialize<T>(reader);
-            if(list is null)
+            if (list is null)
             {
                 throw new Exception(response.StatusCode.ToString());
             }
