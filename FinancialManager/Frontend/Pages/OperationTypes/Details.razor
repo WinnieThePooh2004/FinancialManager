@@ -1,0 +1,60 @@
+﻿@page "/OperationTypes/details/{id:int}"
+<h3>Delete</h3>
+
+@using HttpService;
+@using FinancialManager.DTOs.OperationTypes
+
+<PageTitle>Operation type details</PageTitle>
+
+@inject NavigationManager manager
+@inject HttpService client
+@if (Operation is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="form-group">
+        <h4>Details of @Operation.Name operation type</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>@Operation.Id</td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>@Operation.Name</td>
+                </tr>
+                <tr>
+                    <td>IsIncome</td>
+                    <td>@Operation.IsIncome</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <a href='/OperationTypes/Update/@Operation.Id' class="btn btn-outline-dark" role="button">
+            Edit
+        </a>
+        <a href='/OperationTypes/delete/@Operation.Id' class="btn btn-outline-danger" role="button">
+            Delete
+        </a>
+        <input type="submit" value="Back" @onclick="(() => Back())" class="btn btn-warning" />
+    </div>
+}
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public OperationTypeDetailsDto? Operation;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Operation = await client.GetObjectAsync<OperationTypeDetailsDto>($"{HttpService.OperationTypesUrl}/{Id}");
+    }
+
+    void Back()
+    {
+        manager.NavigateTo("/OperationTypes");
+    }
+}

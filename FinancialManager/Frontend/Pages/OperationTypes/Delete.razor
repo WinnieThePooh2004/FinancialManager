@@ -1,0 +1,61 @@
+﻿@page "/OperationTypes/delete/{id:int}"
+<h3>Delete</h3>
+
+@using HttpService;
+@using FinancialManager.DTOs.OperationTypes
+
+@inject NavigationManager manager
+@inject HttpService client
+
+<PageTitle>Delete operation type</PageTitle>
+@if (ObjectForDelete is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="form-group">
+        <h4>Do you want to delete @ObjectForDelete.Name operation type?</h4>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>@ObjectForDelete.Id</td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>@ObjectForDelete.Name</td>
+                </tr>
+                <tr>
+                    <td>Is income</td>
+                    <td>@ObjectForDelete.IsIncome</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Delete" @onclick="(async () => await RemoveUser(ObjectForDelete.Id))" class="btn btn-danger" />
+        <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+    </div>
+}
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public OperationTypeDetailsDto? ObjectForDelete { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ObjectForDelete = await client.GetObjectAsync<OperationTypeDetailsDto>($"{HttpService.OperationTypesUrl}/{Id}");
+
+    }
+
+    protected async Task RemoveUser(int id)
+    {
+        await client.DeleteObject(HttpService.OperationTypesUrl, id);
+        manager.NavigateTo("/OperationTypes");
+    }
+    void Cancel()
+    {
+        manager.NavigateTo("/OperationTypes");
+    }
+}

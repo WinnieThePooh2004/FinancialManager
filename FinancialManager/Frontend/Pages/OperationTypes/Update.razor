@@ -1,0 +1,66 @@
+﻿@page "/OperationTypes/Update/{id:int}"
+
+@using HttpService
+@using FinancialManager.DTOs.OperationTypes;
+
+@inject NavigationManager manager
+@inject HttpService client
+<PageTitle>Edit operation type</PageTitle>
+
+@if (UpdateDto is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Update "@UpdateDto.Name" operation</h3>
+
+    <EditForm Model="UpdateDto" OnValidSubmit="Save">
+        <DataAnnotationsValidator />
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name</label>
+            <div class="col-md-4">
+                <InputText class="form-control" @bind-Value="UpdateDto.Name" />
+            </div>
+            <ValidationMessage For="@(() => UpdateDto.Name)" />
+        </div>
+        <div class="mb-3">
+            <label for="IsIncome" class="form-label">IsIncome</label>
+            <div class="col-md-4">
+                <InputText class="form-control" @bind-Value="UpdateDto.IsIncome" />
+            </div>
+            <ValidationMessage For="@(() => UpdateDto.IsIncome)" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button class="btn btn-light" @onclick="Back">Cancel</button>
+        </div>
+    </EditForm>
+}
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    protected OperationTypeUpdateDto? UpdateDto { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var entity = await client.GetObjectAsync<OperationTypeUpdateDto>($"{HttpService.OperationTypesUrl}/{Id}");
+        UpdateDto = new OperationTypeUpdateDto
+            {
+                Id = entity.Id,
+                IsIncome = entity.IsIncome,
+                Name = entity.Name
+            };
+    }
+
+    protected async Task Save()
+    {
+        await client.PutObject($"{HttpService.OperationTypesUrl}/{Id}", UpdateDto);
+        Back();
+    }
+
+    protected void Back()
+    {
+        manager.NavigateTo("/OperationTypes");
+    }
+}

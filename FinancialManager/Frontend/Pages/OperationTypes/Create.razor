@@ -1,0 +1,48 @@
+﻿@page "/OperationTypes/Create/"
+
+@using HttpService
+@using FinancialManager.DTOs.OperationTypes;
+
+@inject NavigationManager manager
+@inject HttpService client
+<PageTitle>Add operation type</PageTitle>
+
+<h3>Add new income or expense</h3>
+
+<EditForm Model = "@_createDto" OnValidSubmit="@Save">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_createDto.Name" />
+        </div>
+        <ValidationMessage For="@(() => _createDto.Name)" />
+    </div>
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="IsIncome" class="form-label">Is income</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="_createDto.IsIncome" />
+        </div>
+        <ValidationMessage For="@(() => _createDto.IsIncome)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Back">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    protected FinancialManager.DTOs.OperationTypes.OperationTypeCreateDto _createDto = new();
+
+    protected async Task Save()
+    {
+        await client.PostObject(HttpService.OperationTypesUrl, _createDto);
+        Back();
+    }
+
+    protected void Back()
+    {
+        manager.NavigateTo("/OperationTypes");
+    }
+}
