@@ -8,7 +8,7 @@
 <PageTitle>Reports</PageTitle>
 
 <div class="input-group col">
-    <input type="datetime" class="form-control" placeholder="Enter report date"
+    <input type="date" class="form-control" placeholder="Enter report date"
            @bind="InputDailyReportDate" width="500" />
 </div>
 <br />
@@ -20,12 +20,12 @@
 <br />
 <br />
 <div class="input-group col">
-    <input type="datetime" class="form-control" placeholder="Enter period report date start"
+    <input type="date" class="form-control" placeholder="Enter period report date start"
            @bind="InputPeriodStart" />
 </div>
 <br />
 <div class="input-group col">
-    <input type="datetime" class="form-control" placeholder="Enter period report date end"
+    <input type="date" class="form-control" placeholder="Enter period report date end"
            @bind="InputPeriodEnd" />
 </div>
 <br />
@@ -76,37 +76,22 @@
 }
 @code {
 
-    public string InputDailyReportDate { get; set; } = default!;
-    public string InputPeriodStart { get; set; } = default!;
-    public string InputPeriodEnd { get; set; } = default!;
+    public DateOnly InputDailyReportDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly InputPeriodStart { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly InputPeriodEnd { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string ReportHeader { get; set; } = "No report yet";
     public ReportDetailsDto? Report { get; set; }
 
     public async Task ShowDailyReportAsync()
     {
-        if (DateTime.TryParse(InputDailyReportDate, out DateTime date))
-        {
-            ReportHeader = "Loading...";
-            Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetDailyReport?date={date}");
-            ReportHeader = $"Report for {InputDailyReportDate}";
-            int.Parse("");
-        }
-        else
-        {
-            ReportHeader = "Wrong date input format";
-        }
+        ReportHeader = "Loading...";
+        Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetDailyReport?date={InputDailyReportDate}");
+        ReportHeader = $"Report for {InputDailyReportDate}";
     }
     public async Task ShowPeriodReportAsync()
     {
-        if (DateTime.TryParse(InputPeriodStart, out DateTime start) && DateTime.TryParse(InputPeriodEnd, out DateTime end))
-        {
-            ReportHeader = "Loading...";
-            Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetPeriodReport?periodStart={start}&periodEnd={end}");
-            ReportHeader = $"Report for period from {InputPeriodStart} to {InputPeriodEnd}";
-        }
-        else
-        {
-            ReportHeader = "Wrong date input format";
-        }
+        ReportHeader = "Loading...";
+        Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetPeriodReport?periodStart={InputPeriodStart}&periodEnd={InputPeriodEnd}");
+        ReportHeader = $"Report for period from {InputPeriodStart} to {InputPeriodEnd}";
     }
 }
