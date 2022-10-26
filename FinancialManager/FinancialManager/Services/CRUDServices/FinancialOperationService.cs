@@ -15,7 +15,7 @@ namespace FinancialManager.Services.CRUDServices
         {
             if (entity is null || !_context.OperationTypes.Any(type => type.Id == entity.OperationTypeId))
             {
-                throw new BadHttpRequestException("No such operation type");
+                throw new Exception("No such operation type");
             }
 
             _context.FinancialOperations.Add(entity);
@@ -27,7 +27,7 @@ namespace FinancialManager.Services.CRUDServices
             var entity = _context.FinancialOperations.FirstOrDefault(operation => operation.Id == id);
             if (entity is null)
             {
-                throw new HttpRequestException("Not found");
+                throw new Exception("Not found");
             }
             _context.FinancialOperations.Remove(entity);
             await _context.SaveChangesAsync();
@@ -43,7 +43,7 @@ namespace FinancialManager.Services.CRUDServices
             var entity = await _context.FinancialOperations.FirstOrDefaultAsync(operation => operation.Id == id);
             if (entity is null)
             {
-                throw new HttpRequestException("Not found");
+                throw new Exception("Not found");
             }
             return entity;
         }
@@ -52,12 +52,12 @@ namespace FinancialManager.Services.CRUDServices
         {
             if (id != entity.Id)
             {
-                throw new HttpRequestException("Edited entity id the same");
+                throw new Exception("Edited entity id the same");
             }
             var dbEntity = await _context.FinancialOperations.FirstOrDefaultAsync(operation => operation.Id == id);
             if (dbEntity is null)
             {
-                throw new HttpRequestException("Not found");
+                throw new Exception("Not found");
             }
             dbEntity.Description = entity.Description;
             dbEntity.Amount = entity.Amount;

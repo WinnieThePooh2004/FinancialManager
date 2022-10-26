@@ -16,7 +16,7 @@ namespace FinancialManager.Services.CRUDServices
         {
             if (entity is null)
             {
-                throw new HttpRequestException("Bad request");
+                throw new Exception("Bad request");
             }
             _context.OperationTypes.Add(entity);
             await _context.SaveChangesAsync();
@@ -27,7 +27,7 @@ namespace FinancialManager.Services.CRUDServices
             var entity = _context.OperationTypes.FirstOrDefault(type => type.Id == id);
             if (entity is null)
             {
-                throw new HttpRequestException("Not found");
+                throw new Exception("Not found");
             }
             var operationsForDelete = await _context.FinancialOperations.Where(o => o.OperationTypeId == id).ToListAsync();
             foreach (var operation in operationsForDelete) 
@@ -48,7 +48,7 @@ namespace FinancialManager.Services.CRUDServices
             var entity = await _context.OperationTypes.FirstOrDefaultAsync(type => type.Id == id);
             if (entity is null)
             {
-                throw new HttpRequestException("Not found");
+                throw new Exception("Not found");
             }
             return entity;
         }
@@ -57,12 +57,12 @@ namespace FinancialManager.Services.CRUDServices
         {
             if (id != entity.Id)
             {
-                throw new HttpRequestException("Bad request");
+                throw new Exception("Bad request");
             }
             var dbEntity = await _context.OperationTypes.FirstOrDefaultAsync(type => type.Id == id);
             if (dbEntity is null)
             {
-                throw new HttpRequestException("Not found");
+                throw new Exception("Not found");
             }
             dbEntity.Name = entity.Name;
             dbEntity.IsIncome = entity.IsIncome;

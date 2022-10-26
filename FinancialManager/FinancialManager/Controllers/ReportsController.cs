@@ -30,7 +30,7 @@ namespace FinancialManager.Controllers
 
         [Route("GetPeriodReport")]
         [HttpGet]
-        public async Task<ActionResult<ReportDetailsDto>> GetReportByPeriod(DateTime periodStart, DateTime periodEnd)
+        public async Task<ActionResult<ReportDetailsDto>> GetReportByPeriod([FromQuery]DateTime periodStart, [FromQuery]DateTime periodEnd)
         {
             return _mapper.Map<ReportDetailsDto>(await _service.PeriodReportAsync(periodStart, periodEnd));
         }

@@ -35,7 +35,7 @@ namespace FinancialManager.Controllers
             {
                 entity = await _service.GetAsync(id);
             }
-            catch (HttpRequestException)
+            catch (Exception)
             {
                 return NotFound();
             }

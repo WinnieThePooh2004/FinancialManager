@@ -33,14 +33,14 @@ namespace FinancialManagerTest.Tests
         public async Task TestFinancialOperationGetNotExistingObjectById()
         {
             var service = CreateService();
-            await Assert.ThrowsAsync<HttpRequestException>(async() => await service.GetAsync(1));
+            await Assert.ThrowsAsync<Exception>(async() => await service.GetAsync(1));
         }
 
         [Fact]
         public async Task TestDeleteNotExistingObjectObject()
         {
             var service = CreateService();
-            await Assert.ThrowsAsync<HttpRequestException>(async () => await service.DeleteAsync(1));
+            await Assert.ThrowsAsync<Exception>(async () => await service.DeleteAsync(1));
         }
 
         [Fact]
@@ -77,14 +77,14 @@ namespace FinancialManagerTest.Tests
         public async Task TestUpdateNotExistingObject()
         {
             var service = CreateService();
-            await Assert.ThrowsAsync<HttpRequestException>(async () => await service.UpdateAsync(2, new FinancialOperation() { Id = 2 }));
+            await Assert.ThrowsAsync<Exception>(async () => await service.UpdateAsync(2, new FinancialOperation() { Id = 2 }));
         }
 
         [Fact]
         public async Task TestUpdateOperationWithAnotherUpdateObjectId()
         {
             var service = CreateService();
-            await Assert.ThrowsAsync<HttpRequestException>(async() => await service.UpdateAsync(123, new FinancialOperation() { Id = 2 }));
+            await Assert.ThrowsAsync<Exception>(async() => await service.UpdateAsync(123, new FinancialOperation() { Id = 2 }));
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace FinancialManagerTest.Tests
         public async Task TestPostObjectWithNotExistingOperationTypeId()
         {
             var service = CreateService();
-            await Assert.ThrowsAsync<BadHttpRequestException>(async () => await service.AddAsync(new FinancialOperation() { OperationTypeId = 17 }));
+            await Assert.ThrowsAsync<Exception>(async () => await service.AddAsync(new FinancialOperation() { OperationTypeId = 17 }));
         }
 
         private FinancialOperationService CreateService()
