@@ -1,6 +1,6 @@
-﻿namespace FinancialManager.DTOs.FinancialOperations
+﻿namespace Shared.DTOs.FinancialOperations
 {
-    public class FinancialOperationDetailsDto
+    public class FinancialOperationIndexDto
     {
         public int Id { get; set; }
         public string DateTime { get; set; } = default!;

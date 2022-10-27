@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using FinancialManager.Models;
-using FinancialManager.DTOs.OperationTypes;
+using Shared.DTOs.OperationTypes;
 namespace FinancialManager.MapperProfiles.OperationTypes
 {
     public class OperationTypeDetilsProfile : Profile

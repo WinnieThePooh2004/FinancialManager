@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using FinancialManager.Models;
-using FinancialManager.DTOs.OperationTypes;
+using Shared.DTOs.OperationTypes;
 using AutoMapper;
 using FinancialManager.Services.CRUDServices;
 

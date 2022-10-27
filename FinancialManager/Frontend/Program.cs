@@ -1,27 +1,13 @@
-using FinancialManager.Data;
-using FinancialManager.Models;
-using FinancialManager.Services.CRUDServices;
-using FinancialManager.Services.ReportService;
 using Frontend.HttpService;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IFinancialManagerContext, FinancialManagerContext>();
-builder.Services.AddDbContext<FinancialManagerContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FinancialManagerContext") ?? throw new InvalidOperationException("Connection string 'FinancialManagerContext' not found.")));
-
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddScoped<IService<FinancialOperation>, FinancialOperationService>();
-builder.Services.AddScoped<IService<OperationType>, OperationTypeService>();
-builder.Services.AddScoped<IReportService, ReportService>();
-builder.Services.AddSingleton<HttpService>();
 
 // Add services to the container.
-builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<HttpService>();
 
 var app = builder.Build();
 
@@ -39,7 +25,6 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

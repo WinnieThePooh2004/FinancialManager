@@ -1,6 +1,4 @@
-﻿using FinancialManager.DTOs.FinancialOperations;
-
-namespace FinancialManager.Models
+﻿namespace FinancialManager.Models
 {
     public class Report
     {

@@ -1,6 +1,5 @@
-﻿using FinancialManager.Models;
-using FinancialManager.DTOs.FinancialOperations;
-namespace FinancialManager.DTOs.Reports
+﻿using Shared.DTOs.FinancialOperations;
+namespace Shared.DTOs.Reports
 {
     public class ReportDetailsDto
     {

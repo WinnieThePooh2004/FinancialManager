@@ -1,7 +1,7 @@
 ﻿@page "/Reports"
 
-@using FinancialManager.DTOs.Reports;
 @using HttpService
+@using Shared.DTOs.Reports
 
 @inject HttpService client
 @inject NavigationManager manager
@@ -80,6 +80,7 @@
     public DateOnly InputPeriodStart { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public DateOnly InputPeriodEnd { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     public string ReportHeader { get; set; } = "No report yet";
+
     public ReportDetailsDto? Report { get; set; }
 
     public async Task ShowDailyReportAsync()
@@ -88,6 +89,7 @@
         Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUrl}/GetDailyReport?date={InputDailyReportDate}");
         ReportHeader = $"Report for {InputDailyReportDate}";
     }
+
     public async Task ShowPeriodReportAsync()
     {
         ReportHeader = "Loading...";

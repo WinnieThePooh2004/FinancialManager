@@ -1,6 +1,4 @@
-﻿using FinancialManager.DTOs.FinancialOperations;
-using Newtonsoft.Json;
-using static System.Net.WebRequestMethods;
+﻿using Newtonsoft.Json;
 
 namespace Frontend.HttpService
 {
