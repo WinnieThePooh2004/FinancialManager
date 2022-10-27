@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager", "Financi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManagerTest", "FinancialManagerTest\FinancialManagerTest.csproj", "{623FD5DB-089F-467A-A128-AB9AB8B23814}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{95211B85-A50E-4452-87EA-6F09777EEDA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frontend", "Frontend\Frontend.csproj", "{95211B85-A50E-4452-87EA-6F09777EEDA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{EA85C9AA-DA62-4D85-934D-7CCE3C32D249}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{95211B85-A50E-4452-87EA-6F09777EEDA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95211B85-A50E-4452-87EA-6F09777EEDA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95211B85-A50E-4452-87EA-6F09777EEDA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA85C9AA-DA62-4D85-934D-7CCE3C32D249}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA85C9AA-DA62-4D85-934D-7CCE3C32D249}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA85C9AA-DA62-4D85-934D-7CCE3C32D249}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA85C9AA-DA62-4D85-934D-7CCE3C32D249}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
