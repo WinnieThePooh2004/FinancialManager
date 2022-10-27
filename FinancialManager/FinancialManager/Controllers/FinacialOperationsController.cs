@@ -23,7 +23,14 @@ namespace FinancialManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FinancialOperationIndexDto>>> GetFinacialOperation()
         {
-            return _mapper.Map<List<FinancialOperationIndexDto>>(await _service.GetAllAsync());
+            try
+            {
+                return _mapper.Map<List<FinancialOperationIndexDto>>(await _service.GetAllAsync());
+            }
+            catch (Exception ex) 
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         // GET: api/FinacialOperations/5
