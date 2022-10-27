@@ -1,4 +1,4 @@
-﻿namespace FinancialManager.DTOs.OperationTypes
+﻿namespace Shared.DTOs.OperationTypes
 {
     public class OperationTypeIndexDto
     {

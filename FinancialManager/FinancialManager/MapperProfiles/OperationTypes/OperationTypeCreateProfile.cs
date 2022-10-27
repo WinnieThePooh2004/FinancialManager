@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using AutoMapper;
-using FinancialManager.DTOs.OperationTypes;
+using Shared.DTOs.OperationTypes;
 using FinancialManager.Models;
 
 namespace FinancialManager.MapperProfiles.OperationTypes

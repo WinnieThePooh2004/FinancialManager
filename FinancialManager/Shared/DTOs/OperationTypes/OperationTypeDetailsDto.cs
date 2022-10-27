@@ -1,7 +1,8 @@
-﻿namespace FinancialManager.DTOs.OperationTypes
+﻿namespace Shared.DTOs.OperationTypes
 {
-    public class OperationTypeCreateDto
+    public class OperationTypeDetailsDto
     {
+        public int Id { get; set; }
         public string Name { get; set; } = default!;
         public string IsIncome { get; set; } = default!;
     }

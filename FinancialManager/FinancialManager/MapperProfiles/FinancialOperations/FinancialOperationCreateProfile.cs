@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FinancialManager.DTOs.FinancialOperations;
+using Shared.DTOs.FinancialOperations;
 using FinancialManager.Models;
 
 namespace FinancialManager.MapperProfiles.FinancialOperations

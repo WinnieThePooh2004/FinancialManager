@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using FinancialManager.DTOs.Reports;
+using Shared.DTOs.Reports;
 using FinancialManager.Models;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using FinancialManager.MapperProfiles.FinancialOperations;
-using FinancialManager.DTOs.FinancialOperations;
+using Shared.DTOs.FinancialOperations;
 
 namespace FinancialManager.MapperProfiles.ReportProfiles
 {

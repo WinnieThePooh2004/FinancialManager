@@ -1,8 +1,6 @@
 ﻿using FinancialManager.Models;
 using FinancialManager.Data;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using FinancialManager.DTOs.FinancialOperations;
 
 namespace FinancialManager.Services.ReportService
 {

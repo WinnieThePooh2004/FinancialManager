@@ -1,7 +1,7 @@
 ﻿@page "/OperationTypes/Create/"
 
 @using HttpService
-@using FinancialManager.DTOs.OperationTypes;
+@using Shared.DTOs.OperationTypes;
 
 @inject NavigationManager manager
 @inject HttpService client
@@ -33,7 +33,7 @@
 </EditForm>
 
 @code {
-    protected FinancialManager.DTOs.OperationTypes.OperationTypeCreateDto _createDto = new();
+    protected OperationTypeCreateDto _createDto = new();
 
     protected async Task Save()
     {

@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using FinancialManager.Data;
-using FinancialManager.Models;
 using AutoMapper;
-using FinancialManager.DTOs.FinancialOperations;
 using FinancialManager.Services.ReportService;
-using FinancialManager.DTOs.Reports;
+using Shared.DTOs.Reports;
 
 namespace FinancialManager.Controllers
 {
