@@ -25,9 +25,9 @@ else
             <ValidationMessage For="@(() => UpdateDto.Name)" />
         </div>
         <div class="mb-3">
-            <label for="IsIncome" class="form-label">IsIncome</label>
+            <label for="IsIncome" class="form-check">Is income</label>
             <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="UpdateDto.IsIncome" />
+                <InputCheckbox class="form-check" @bind-Value="UpdateDto.IsIncome" />
             </div>
             <ValidationMessage For="@(() => UpdateDto.IsIncome)" />
         </div>
@@ -37,6 +37,7 @@ else
         </div>
     </EditForm>
 }
+
 @code {
     [Parameter]
     public int Id { get; set; }
