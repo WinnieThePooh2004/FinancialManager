@@ -7,11 +7,7 @@ namespace FinancialManager.MapperProfiles.OperationTypes
     {
         public OperationTypeUpdateProfile()
         {
-            CreateMap<OperationTypeUpdateDto, OperationType>()
-                .ForMember(
-                    dest => dest.IsIncome,
-                    opt => opt.MapFrom(c => bool.Parse(c.IsIncome))
-                );
+            CreateMap<OperationTypeUpdateDto, OperationType>();
         }
     }
 }

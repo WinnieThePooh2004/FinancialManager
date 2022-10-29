@@ -20,9 +20,9 @@
     </div>
     <DataAnnotationsValidator />
     <div class="mb-3">
-        <label for="IsIncome" class="form-label">Is income</label>
+        <label for="IsIncome" class="form-check">Is income</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="_createDto.IsIncome" />
+            <InputCheckbox class="form-check" @bind-Value="_createDto.IsIncome" />
         </div>
         <ValidationMessage For="@(() => _createDto.IsIncome)" />
     </div>

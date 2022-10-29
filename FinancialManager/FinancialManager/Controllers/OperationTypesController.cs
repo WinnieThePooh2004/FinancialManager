@@ -64,9 +64,9 @@ namespace FinancialManager.Controllers
             {
                 await _service.AddAsync(_mapper.Map<OperationType>(operationType));
             }
-            catch (Exception) 
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
             return NoContent();
