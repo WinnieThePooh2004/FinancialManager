@@ -5,7 +5,7 @@
 @using Shared.DTOs.FinancialOperations
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 
 <PageTitle>Operation details</PageTitle>
 
@@ -59,7 +59,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _operation = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUrl}/{Id}");
+        _operation = await client.GetObjectBuyIdAsync<FinancialOperationDetailsDto>(HttpService.FinancialOperationUri, Id);
     }
 
     void Back()

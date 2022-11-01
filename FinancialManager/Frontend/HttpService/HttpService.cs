@@ -1,16 +1,18 @@
 ﻿using Newtonsoft.Json;
+using System.Collections;
+using System.Security.Policy;
 
 namespace Frontend.HttpService
 {
-    public class HttpService
+    public class HttpService : IHttpService
     {
         //work
-        public static string FinancialOperationUrl
+        public static string FinancialOperationUri
             => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("FinancialOperationsUri")}";
         //should work : "/api/FinancialOperations" or "api/FinancialOperations"
-        public static string OperationTypesUrl
+        public static string OperationTypesUri
             => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("OperationTypesUri")}";
-        public static string ReportUrl
+        public static string ReportUri
             => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("ReportsUri")}";
 
         private static readonly HttpClient _client;
@@ -22,17 +24,17 @@ namespace Frontend.HttpService
             };
         }
 
-        public HttpService() 
+        public HttpService()
         {
         }
 
-        public async Task<T> GetObjectAsync<T>(string url) where T : class
+        public async Task<T> GetObjectAsync<T>(string uri) where T : class
         {
-            Console.WriteLine($"\nSending http get request to {url}\n");
-            using var response = await _client.GetAsync(url);
+            Console.WriteLine($"\nSending http get request to {uri}\n");
+            using var response = await _client.GetAsync(uri);
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"\nGet request\n{url}\nnot successful\n");
+                Console.WriteLine($"\nGet request\n{uri}\nnot successful\n");
             }
             using var streamReader = new StreamReader(await response.Content.ReadAsStreamAsync());
             using var reader = new JsonTextReader(streamReader);
@@ -41,16 +43,36 @@ namespace Frontend.HttpService
             {
                 throw new Exception(response.StatusCode.ToString());
             }
-            Console.WriteLine($"\nGet request\n{url}\nsuccessful\n");
+            Console.WriteLine($"\nGet request\n{uri}\nsuccessful\n");
             return list;
         }
 
-        public async Task DeleteObject(string url, int id)
+        public async Task<T> GetObjectBuyIdAsync<T>(string uri, int id) where T : class
         {
-            var requestString = url + "/" + id;
+            Console.WriteLine($"\nSending http get request to {uri}\n");
+            using var response = await _client.GetAsync($"{uri}/{id}");
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"\nGet request\n{uri}\nnot successful\n");
+            }
+            using var streamReader = new StreamReader(await response.Content.ReadAsStreamAsync());
+            using var reader = new JsonTextReader(streamReader);
+            var list = new JsonSerializer().Deserialize<T>(reader);
+            if (list is null)
+            {
+                throw new Exception(response.StatusCode.ToString());
+            }
+            Console.WriteLine($"\nGet request\n{uri}\nsuccessful\n");
+            return list;
+
+        }
+
+        public async Task DeleteObject(string uri, int id)
+        {
+            var requestString = uri + "/" + id;
             Console.WriteLine($"Sending http delete request\n{requestString}");
             HttpResponseMessage response = await _client.DeleteAsync(requestString); ;
-            if(!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
                 Console.WriteLine($"Delete request \n{requestString}\nnot successful");
                 throw new Exception(response.StatusCode.ToString());
@@ -58,28 +80,28 @@ namespace Frontend.HttpService
             Console.WriteLine($"\nDelete requst \n{requestString}\nsuccessful\n");
         }
 
-        public async Task PostObject<T>(string url, T @object)
+        public async Task PostObject<T>(string uri, T @object) where T : class
         {
-            Console.WriteLine($"\nSending http post request\n{url}\n");
-            using var response = await _client.PostAsJsonAsync(url, @object);
-            if(!response.IsSuccessStatusCode)
+            Console.WriteLine($"\nSending http post request\n{uri}\n");
+            using var response = await _client.PostAsJsonAsync(uri, @object);
+            if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"\nPost request\n{url}\nnot successful\n");
+                Console.WriteLine($"\nPost request\n{uri}\nnot successful\n");
                 throw new Exception(response.StatusCode.ToString());
             }
-            Console.WriteLine($"\nPost request\n{url}\nsuccessful\n");
+            Console.WriteLine($"\nPost request\n{uri}\nsuccessful\n");
         }
 
-        public async Task PutObject<T>(string url, T @object)
+        public async Task PutObject<T>(string uri, T @object) where T : class
         {
-            Console.WriteLine($"\nSending http put request\n{url}\n");
-            var response = await _client.PutAsJsonAsync(url, @object);
-            if(!response.IsSuccessStatusCode)
+            Console.WriteLine($"\nSending http put request\n{uri}\n");
+            var response = await _client.PutAsJsonAsync(uri, @object);
+            if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"\nPut request\n{url}\nnot successful\n");
+                Console.WriteLine($"\nPut request\n{uri}\nnot successful\n");
                 throw new Exception(response.StatusCode.ToString());
             }
-            Console.WriteLine($"\nPut request\n{url}\nsuccessful\n");
+            Console.WriteLine($"\nPut request\n{uri}\nsuccessful\n");
         }
     }
 }

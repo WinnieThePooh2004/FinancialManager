@@ -5,7 +5,7 @@
 @using Shared.DTOs.FinancialOperations
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 
 <PageTitle>Delete operation</PageTitle>
 
@@ -54,12 +54,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ObjectForDelete = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUrl}/{Id}");
+        ObjectForDelete = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUri}/{Id}");
     }
 
     protected async Task RemoveUser(int id)
     {
-        await client.DeleteObject(HttpService.FinancialOperationUrl, id);
+        await client.DeleteObject(HttpService.FinancialOperationUri, id);
         manager.NavigateTo("/FinancialOperations");
     }
     void Cancel()

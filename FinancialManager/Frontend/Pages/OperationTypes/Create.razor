@@ -4,7 +4,7 @@
 @using Shared.DTOs.OperationTypes;
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 <PageTitle>Add operation type</PageTitle>
 
 <h3>Add new income or expense</h3>
@@ -37,7 +37,7 @@
 
     protected async Task Save()
     {
-        await client.PostObject(HttpService.OperationTypesUrl, _createDto);
+        await client.PostObject(HttpService.OperationTypesUri, _createDto);
         Back();
     }
 

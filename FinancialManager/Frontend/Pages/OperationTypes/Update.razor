@@ -4,7 +4,7 @@
 @using Shared.DTOs.OperationTypes;
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 <PageTitle>Edit operation type</PageTitle>
 
 @if (UpdateDto is null)
@@ -45,7 +45,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var entity = await client.GetObjectAsync<OperationTypeUpdateDto>($"{HttpService.OperationTypesUrl}/{Id}");
+        var entity = await client.GetObjectAsync<OperationTypeUpdateDto>($"{HttpService.OperationTypesUri}/{Id}");
         UpdateDto = new OperationTypeUpdateDto
             {
                 Id = entity.Id,
@@ -56,7 +56,7 @@ else
 
     protected async Task Save()
     {
-        await client.PutObject($"{HttpService.OperationTypesUrl}/{Id}", UpdateDto);
+        await client.PutObject($"{HttpService.OperationTypesUri}/{Id}", UpdateDto);
         Back();
     }
 
