@@ -4,7 +4,7 @@
 @using Shared.DTOs.FinancialOperations;
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 <PageTitle>Edit operation</PageTitle>
 
 @if (UpdateDto is null)
@@ -58,7 +58,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var entity = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUrl}/{Id}");
+        var entity = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{client.FinancialOperationUri}/{Id}");
         UpdateDto = new FinancialOperationUpdateDto()
             {
                 Id = entity.Id,
@@ -71,7 +71,7 @@ else
 
     protected async Task Save()
     {
-        await client.PutObject($"{HttpService.FinancialOperationUrl}/{Id}", UpdateDto);
+        await client.PutObject($"{client.FinancialOperationUri}/{Id}", UpdateDto);
         Back();
     }
 

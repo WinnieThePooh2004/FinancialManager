@@ -5,7 +5,7 @@
 @using Shared.DTOs.FinancialOperations
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 
 <PageTitle>Delete operation</PageTitle>
 
@@ -43,8 +43,8 @@ else
         </table>
     </div>
     <div class="form-group">
-        <input type="submit" value="Delete" @onclick="(async () => await RemoveUser(ObjectForDelete.Id))" class="btn btn-danger" />
-        <input type="submit" value="Cancel" @onclick="(() => Cancel())" class="btn btn-warning" />
+        <button @onclick="(async () => await RemoveUser(ObjectForDelete.Id))" class="btn btn-danger">Delete</button>
+        <button @onclick="(() => Cancel())" class="btn btn-warning">Cancel</button>
     </div>
 }
 @code {
@@ -54,12 +54,12 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ObjectForDelete = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUrl}/{Id}");
+        ObjectForDelete = await client.GetObjectByIdAsync<FinancialOperationDetailsDto>(client.FinancialOperationUri, Id);
     }
 
     protected async Task RemoveUser(int id)
     {
-        await client.DeleteObject(HttpService.FinancialOperationUrl, id);
+        await client.DeleteObject(client.FinancialOperationUri, id);
         manager.NavigateTo("/FinancialOperations");
     }
     void Cancel()

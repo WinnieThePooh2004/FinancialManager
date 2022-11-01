@@ -7,7 +7,7 @@
 <PageTitle>Operation type details</PageTitle>
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 @if (Operation is null)
 {
     <p><em>Loading...</em></p>
@@ -50,7 +50,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        Operation = await client.GetObjectAsync<OperationTypeDetailsDto>($"{HttpService.OperationTypesUrl}/{Id}");
+        Operation = await client.GetObjectByIdAsync<OperationTypeDetailsDto>(client.OperationTypesUri, Id);
     }
 
     void Back()

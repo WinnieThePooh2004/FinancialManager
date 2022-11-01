@@ -4,7 +4,8 @@
 
 @using Newtonsoft.Json
 @using HttpService
-@inject HttpService client
+@using Shared.DTOs.FinancialOperations
+@inject IHttpService client
 <PageTitle>All operations</PageTitle>
 
 <h1>Your financial operation:</h1>
@@ -57,19 +58,18 @@ else
         </tbody>
     </table>
 }
+
 @code {
     public List<FinancialOperationIndexDto>? Operations { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Operations = await client.GetObjectAsync<List<FinancialOperationIndexDto>>(HttpService.FinancialOperationUrl);
-    }
-
-    public class FinancialOperationIndexDto
-    {
-        public int Id { get; set; }
-        public string DateTime { get; set; } = default!;
-        public string Description { get; set; } = default!;
-        public string Amount { get; set; } = default!;
-        public int OperationTypeId { get; set; }
+        try
+        {
+            Operations = await client.GetObjectAsync<List<FinancialOperationIndexDto>>(client.FinancialOperationUri);
+        }
+        catch
+        {
+            Operations = new();
+        }
     }
 }

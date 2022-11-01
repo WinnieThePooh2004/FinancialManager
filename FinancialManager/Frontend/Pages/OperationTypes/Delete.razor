@@ -5,7 +5,7 @@
 @using Shared.DTOs.OperationTypes
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 
 <PageTitle>Delete operation type</PageTitle>
 @if (ObjectForDelete is null)
@@ -45,13 +45,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ObjectForDelete = await client.GetObjectAsync<OperationTypeDetailsDto>($"{HttpService.OperationTypesUrl}/{Id}");
+        ObjectForDelete = await client.GetObjectAsync<OperationTypeDetailsDto>($"{client.OperationTypesUri}/{Id}");
 
     }
 
     protected async Task RemoveUser(int id)
     {
-        await client.DeleteObject(HttpService.OperationTypesUrl, id);
+        await client.DeleteObject(client.OperationTypesUri, id);
         manager.NavigateTo("/OperationTypes");
     }
     void Cancel()

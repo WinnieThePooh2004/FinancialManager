@@ -5,48 +5,48 @@
 @using Shared.DTOs.FinancialOperations
 
 @inject NavigationManager manager
-@inject HttpService client
+@inject IHttpService client
 
 <PageTitle>Operation details</PageTitle>
 
-@if (_operation is null)
+@if (Operation is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
     <div class="form-group">
-        <h4>"@_operation.Description" Operation details</h4>
+        <h4>"@Operation.Description" Operation details</h4>
         <table class="table">
             <tbody>
                 <tr>
                     <td>Id</td>
-                    <td>@_operation.Id</td>
+                    <td>@Operation.Id</td>
                 </tr>
                 <tr>
                     <td>Date time</td>
-                    <td>@_operation.DateTime</td>
+                    <td>@Operation.DateTime</td>
                 </tr>
                 <tr>
                     <td>Amount</td>
-                    <td>@_operation.Amount</td>
+                    <td>@Operation.Amount</td>
                 </tr>
                 <tr>
                     <td>Description</td>
-                    <td>@_operation.Description</td>
+                    <td>@Operation.Description</td>
                 </tr>
                 <tr>
                     <td>Operation type id</td>
-                    <td>@_operation.OperationTypeId</td>
+                    <td>@Operation.OperationTypeId</td>
                 </tr>
             </tbody>
         </table>
     </div>
     <div class="form-group">
-        <a href='/FinancialOperations/Update/@_operation.Id' class="btn btn-outline-dark" role="button">
+        <a href='/FinancialOperations/Update/@Operation.Id' class="btn btn-outline-dark" role="button">
             Edit
         </a>
-        <a href='/FinancialOperations/delete/@_operation.Id' class="btn btn-outline-danger" role="button">
+        <a href='/FinancialOperations/delete/@Operation.Id' class="btn btn-outline-danger" role="button">
             Delete
         </a>
         <input type="submit" value="Back" @onclick="(() => Back())" class="btn btn-warning" />
@@ -55,11 +55,11 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
-    public FinancialOperationDetailsDto? _operation;
+    public FinancialOperationDetailsDto? Operation{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _operation = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUrl}/{Id}");
+        Operation = await client.GetObjectByIdAsync<FinancialOperationDetailsDto>(client.FinancialOperationUri, Id);
     }
 
     void Back()
