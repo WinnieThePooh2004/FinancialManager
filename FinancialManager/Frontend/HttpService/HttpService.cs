@@ -45,7 +45,7 @@ namespace Frontend.HttpService
             return list;
         }
 
-        public async Task<T> GetObjectBuyIdAsync<T>(string uri, int id) where T : class
+        public async Task<T> GetObjectByIdAsync<T>(string uri, int id) where T : class
         {
             Console.WriteLine($"\nSending http get request to {uri}\n");
             using var response = await _client.GetAsync($"{uri}/{id}");

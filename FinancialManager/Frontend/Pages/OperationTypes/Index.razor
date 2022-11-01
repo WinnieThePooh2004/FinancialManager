@@ -13,7 +13,7 @@
 
 @if (Operations is null)
 {
-    <p><em>Loading</em></p>
+    <p><em>Loading...</em></p>
 }
 else
 {
@@ -62,6 +62,13 @@ else
     public List<OperationTypeIndexDto>? Operations { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Operations = await client.GetObjectAsync<List<OperationTypeIndexDto>>(client.OperationTypesUri);
+        try
+        {
+            Operations = await client.GetObjectAsync<List<OperationTypeIndexDto>>(client.OperationTypesUri);
+        }
+        catch
+        {
+            Operations = new();
+        }
     }
 }
