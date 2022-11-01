@@ -9,7 +9,7 @@ using FinancialManagerTest.Mocks;
 using FinancialManagerTest.Mocks.Data;
 using Microsoft.AspNetCore.Http;
 
-namespace FinancialManagerTest.Tests.BackendTests
+namespace FinancialManagerTest.Tests
 {
     public class OperationTypesServiceTest
     {

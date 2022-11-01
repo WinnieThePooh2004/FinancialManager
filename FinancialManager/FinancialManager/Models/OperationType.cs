@@ -7,6 +7,7 @@ namespace FinancialManager.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public int UsertId { get; set; }
         public string Name { get; set; } = default!;
         public bool IsIncome { get; set; }
     }

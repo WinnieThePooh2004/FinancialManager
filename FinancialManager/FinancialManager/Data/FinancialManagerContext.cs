@@ -13,10 +13,11 @@ namespace FinancialManager.Data
 
         public DbSet<OperationType> OperationTypes { get; set; } = default!;
 
+        public DbSet<User> Users { get; set; } = default!;
+
         public async Task SaveChangesAsync()
         {
             await base.SaveChangesAsync();
-            IQueryable<FinancialOperation> queryable = FinancialOperations;
         }
 
     }

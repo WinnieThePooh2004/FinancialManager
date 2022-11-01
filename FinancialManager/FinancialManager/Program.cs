@@ -3,6 +3,7 @@ using FinancialManager.Data;
 using FinancialManager.Models;
 using FinancialManager.Services.CRUDServices;
 using FinancialManager.Services.ReportService;
+using FinancialManager.Services.LoginServices;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IFinancialManagerContext, FinancialManagerContext>();
@@ -17,6 +18,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IService<FinancialOperation>, FinancialOperationService>();
 builder.Services.AddScoped<IService<OperationType>, OperationTypeService>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

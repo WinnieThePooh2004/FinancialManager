@@ -3,9 +3,9 @@ using FinancialManager.Models;
 using Shared.DTOs.OperationTypes;
 namespace FinancialManager.MapperProfiles.OperationTypes
 {
-    public class OperationTypeDetilsProfile : Profile
+    public class OperationTypeDetailsProfile : Profile
     {
-        public OperationTypeDetilsProfile()
+        public OperationTypeDetailsProfile()
         {
             CreateMap<OperationType, OperationTypeDetailsDto>();
         }

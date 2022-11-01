@@ -3,6 +3,8 @@ using FinancialManager.Models;
 using Shared.DTOs.FinancialOperations;
 using AutoMapper;
 using FinancialManager.Services.CRUDServices;
+using System.Drawing;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FinancialManager.Controllers
 {
@@ -27,7 +29,7 @@ namespace FinancialManager.Controllers
             {
                 return _mapper.Map<List<FinancialOperationIndexDto>>(await _service.GetAllAsync());
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return NotFound(ex.Message);
             }
@@ -59,12 +61,12 @@ namespace FinancialManager.Controllers
             {
                 await _service.UpdateAsync(id, _mapper.Map<FinancialOperation>(finacialOperation));
             }
-            catch (Exception ex)
+            catch(ArgumentException)
             {
-                if(ex.Message == "Not found")
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
+            catch (Exception)
+            {
                 return BadRequest();
             }
             return NoContent();

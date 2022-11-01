@@ -23,16 +23,30 @@ namespace FinancialManager.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<OperationTypeIndexDto>>> GetOperationType()
         {
-            return _mapper.Map<List<OperationTypeIndexDto>>(await _service.GetAllAsync());
+            try
+            {
+                return _mapper.Map<List<OperationTypeIndexDto>>(await _service.GetAllAsync());
+            }
+            catch (Exception) 
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/OperationTypes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationTypeDetailsDto>> GetOperationType(int id)
         {
-            var entity = await _service.GetAsync(id);
+            OperationType entity;
+            try
+            {
+                entity = await _service.GetAsync(id);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
             return _mapper.Map<OperationTypeDetailsDto>(entity);
-
         }
 
         // PUT: api/OperationTypes/5

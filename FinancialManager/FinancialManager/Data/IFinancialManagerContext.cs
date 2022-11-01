@@ -7,6 +7,7 @@ namespace FinancialManager.Data
     {
         DbSet<FinancialOperation> FinancialOperations { get; }
         DbSet<OperationType> OperationTypes { get; }
+        public DbSet<User> Users { get; }
         Task SaveChangesAsync();
     }
 }

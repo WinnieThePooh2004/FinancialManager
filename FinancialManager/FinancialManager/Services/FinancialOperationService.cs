@@ -1,21 +1,22 @@
 ﻿using FinancialManager.Models;
 using FinancialManager.Data;
 using Microsoft.EntityFrameworkCore;
+using FinancialManager.Services.CRUDServices;
 
-namespace FinancialManager.Services.CRUDServices
+namespace FinancialManager.Services
 {
     public class FinancialOperationService : IService<FinancialOperation>
     {
-        private IFinancialManagerContext _context;
-        public FinancialOperationService(IFinancialManagerContext context)
+        private FinancialManagerContext _context;
+        public FinancialOperationService(FinancialManagerContext context)
         {
             _context = context;
         }
         public async Task AddAsync(FinancialOperation? entity)
         {
-            if (entity is null || !_context.OperationTypes.Any(type => type.Id == entity.OperationTypeId))
+            if (entity is null || !_context.OperationTypes.All(type => type.Id == entity.OperationTypeId))
             {
-                throw new Exception("No such operation type");
+                throw new Exception("Bad request");
             }
 
             _context.FinancialOperations.Add(entity);
@@ -24,10 +25,10 @@ namespace FinancialManager.Services.CRUDServices
 
         public async Task DeleteAsync(int id)
         {
-            var entity = _context.FinancialOperations.FirstOrDefault(operation => operation.Id == id);
+            var entity = _context.FinancialOperations.FirstOrDefault(x => x.Id == id);
             if (entity is null)
             {
-                throw new Exception("Not found");
+                throw new Exception("Not founded");
             }
             _context.FinancialOperations.Remove(entity);
             await _context.SaveChangesAsync();
@@ -41,7 +42,7 @@ namespace FinancialManager.Services.CRUDServices
         public async Task<FinancialOperation> GetAsync(int id)
         {
             var entity = await _context.FinancialOperations.FirstOrDefaultAsync(operation => operation.Id == id);
-            if (entity is null)
+            if(entity is null)
             {
                 throw new Exception("Not found");
             }
@@ -52,12 +53,12 @@ namespace FinancialManager.Services.CRUDServices
         {
             if (id != entity.Id)
             {
-                throw new Exception("Edited entity id the same");
+                throw new Exception("Bad request");
             }
             var dbEntity = await _context.FinancialOperations.FirstOrDefaultAsync(operation => operation.Id == id);
             if (dbEntity is null)
             {
-                throw new ArgumentException("Not found");
+                throw new Exception("Not founded");
             }
             dbEntity.Description = entity.Description;
             dbEntity.Amount = entity.Amount;

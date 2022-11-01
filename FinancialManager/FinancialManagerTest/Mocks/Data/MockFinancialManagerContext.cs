@@ -16,10 +16,13 @@ namespace FinancialManagerTest.Mocks.Data
 
         public DbSet<OperationType> OperationTypes { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
         public MockFinancialManagerContext()
         {
             FinancialOperations = new MockDbSet<FinancialOperation>(CreateFinancialOperations()).Object;
             OperationTypes = new MockDbSet<OperationType>(CreateOperationTypes()).Object;
+            Users = new MockDbSet<User>(new List<User>()).Object;
         }
 
         public async Task SaveChangesAsync()
@@ -70,6 +73,14 @@ namespace FinancialManagerTest.Mocks.Data
                 new OperationType(){ Id = 12, IsIncome = false, Name = "rent" }
             };
         }
-        
+
+        private List<User> CreateUsers()
+        {
+            return new List<User>
+            {
+                new User(){ Id = 1, Email = "example@gmail.com", Name = "example", Password = "12345678" },
+                new User(){ Id = 1, Email = "example@icloud.com", Name = "example", Password = "12345678" }
+            };
+        }
     }
 }
