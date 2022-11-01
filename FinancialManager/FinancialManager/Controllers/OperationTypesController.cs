@@ -30,9 +30,15 @@ namespace FinancialManager.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<OperationTypeDetailsDto>> GetOperationType(int id)
         {
-            var entity = await _service.GetAsync(id);
-            return _mapper.Map<OperationTypeDetailsDto>(entity);
-
+            try
+            {
+                var entity = await _service.GetAsync(id);
+                return _mapper.Map<OperationTypeDetailsDto>(entity);
+            }
+            catch(Exception)
+            {
+                return NotFound();
+            }
         }
 
         // PUT: api/OperationTypes/5

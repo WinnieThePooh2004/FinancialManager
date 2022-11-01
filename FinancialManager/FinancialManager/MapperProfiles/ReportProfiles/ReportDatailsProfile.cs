@@ -19,11 +19,11 @@ namespace FinancialManager.MapperProfiles.ReportProfiles
                 )
                 .ForMember(
                     dest => dest.TotalExprenses,
-                    opt => opt.MapFrom(c => (((double)c.TotalExprenses) / 100).ToString("0.00") + "UAH")
+                    opt => opt.MapFrom(c => (((double)c.TotalExprenses) / 100).ToString("0.00") + " UAH")
                 )
                 .ForMember(
                     dest => dest.TotalIncome,
-                    opt => opt.MapFrom(c => (((double)c.TotalIncome) / 100).ToString("0.00") + "UAH")
+                    opt => opt.MapFrom(c => (((double)c.TotalIncome) / 100).ToString("0.00") + " UAH")
                 );
         }
     }

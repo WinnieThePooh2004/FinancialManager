@@ -7,6 +7,9 @@ using FinancialManager.Services.ReportService;
 using FinancialManagerTest.Mocks;
 using FinancialManagerTest.Mocks.Data;
 using FinancialManager.MapperProfiles;
+using FinancialManager.Controllers;
+using AutoMapper;
+using FinancialManager.MapperProfiles.ReportProfiles;
 
 namespace FinancialManagerTest.Tests.BackendTests
 {
@@ -15,50 +18,55 @@ namespace FinancialManagerTest.Tests.BackendTests
         [Fact]
         public async Task TestDailyReport()
         {
-            var service = CreateService();
-            var report = await service.DailyReportAsync(DateTime.Parse("10.10.2002"));
+            var controller = CreateController();
+            var response = await controller.GetDailyReport(DateTime.Parse("10.10.2002"));
+            var report = response.Value;
             Assert.NotNull(report);
-            Assert.Equal(1000, report.TotalIncome);
-            Assert.Equal(0, report.TotalExprenses);
+            Assert.Equal("10.00 UAH", report.TotalIncome);
+            Assert.Equal("0.00 UAH", report.TotalExprenses);
             Assert.Single(report.Operations);
         }
 
         [Fact]
         public async Task TestPeriodReport()
         {
-            var service = CreateService();
-            var report = await service.PeriodReportAsync(DateTime.Parse("09.11.2002"), DateTime.Parse("10.12.2002"));
+            var controller = CreateController();
+            var response = await controller.GetReportByPeriod(DateTime.Parse("09.11.2002"), DateTime.Parse("10.12.2002"));
+            var report = response.Value;
             Assert.NotNull(report);
-            Assert.Equal(1000, report.TotalExprenses);
-            Assert.Equal(1000, report.TotalIncome);
+            Assert.Equal("10.00 UAH", report.TotalExprenses);
+            Assert.Equal("10.00 UAH", report.TotalIncome);
             Assert.Equal(2, report.Operations.Count);
         }
 
         [Fact]
         public async Task TestEmptyDailyReport()
         {
-            var service = CreateService();
-            var report = await service.DailyReportAsync(DateTime.Parse("10.10.2010"));
+            var controller = CreateController();
+            var response = await controller.GetDailyReport(DateTime.Parse("10.10.2010"));
+            var report = response.Value;
             Assert.NotNull(report);
-            Assert.Equal(0, report.TotalIncome);
-            Assert.Equal(0, report.TotalExprenses);
+            Assert.Equal("0.00 UAH", report.TotalIncome);
+            Assert.Equal("0.00 UAH", report.TotalExprenses);
             Assert.Empty(report.Operations);
         }
 
         [Fact]
         public async Task TestEmptyPeriodReport()
         {
-            var service = CreateService();
-            var report = await service.PeriodReportAsync(DateTime.Parse("09.10.2009"), DateTime.Parse("10.10.2010"));
+            var service = CreateController();
+            var response = await service.GetReportByPeriod(DateTime.Parse("09.10.2009"), DateTime.Parse("10.10.2010"));
+            var report = response.Value;
             Assert.NotNull(report);
-            Assert.Equal(0, report.TotalIncome);
-            Assert.Equal(0, report.TotalExprenses);
+            Assert.Equal("0.00 UAH", report.TotalIncome);
+            Assert.Equal("0.00 UAH", report.TotalExprenses);
             Assert.Empty(report.Operations);
         }
 
-        private ReportService CreateService()
+        private ReportsController CreateController()
         {
-            return new ReportService(new MockFinancialManagerContext());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new ReportDatailsProfile()));
+            return new ReportsController(new ReportService(new MockFinancialManagerContext()), new Mapper(config));
         }
     }
 }
