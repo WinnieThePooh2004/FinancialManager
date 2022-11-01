@@ -59,7 +59,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _operation = await client.GetObjectBuyIdAsync<FinancialOperationDetailsDto>(HttpService.FinancialOperationUri, Id);
+        _operation = await client.GetObjectBuyIdAsync<FinancialOperationDetailsDto>(client.FinancialOperationUri, Id);
     }
 
     void Back()

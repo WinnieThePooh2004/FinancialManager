@@ -58,7 +58,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var entity = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{HttpService.FinancialOperationUri}/{Id}");
+        var entity = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{client.FinancialOperationUri}/{Id}");
         UpdateDto = new FinancialOperationUpdateDto()
             {
                 Id = entity.Id,
@@ -71,7 +71,7 @@ else
 
     protected async Task Save()
     {
-        await client.PutObject($"{HttpService.FinancialOperationUri}/{Id}", UpdateDto);
+        await client.PutObject($"{client.FinancialOperationUri}/{Id}", UpdateDto);
         Back();
     }
 

@@ -57,11 +57,12 @@ else
         </tbody>
     </table>
 }
+
 @code {
     public List<FinancialOperationIndexDto>? Operations { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Operations = await client.GetObjectAsync<List<FinancialOperationIndexDto>>(HttpService.FinancialOperationUri);
+        Operations = await client.GetObjectAsync<List<FinancialOperationIndexDto>>(client.FinancialOperationUri);
     }
 
     public class FinancialOperationIndexDto

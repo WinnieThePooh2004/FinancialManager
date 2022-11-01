@@ -62,6 +62,6 @@ else
     public List<OperationTypeIndexDto>? Operations { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Operations = await client.GetObjectAsync<List<OperationTypeIndexDto>>(HttpService.OperationTypesUri);
+        Operations = await client.GetObjectAsync<List<OperationTypeIndexDto>>(client.OperationTypesUri);
     }
 }

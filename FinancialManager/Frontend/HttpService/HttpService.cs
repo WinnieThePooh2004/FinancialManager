@@ -6,13 +6,11 @@ namespace Frontend.HttpService
 {
     public class HttpService : IHttpService
     {
-        //work
-        public static string FinancialOperationUri
+        public string FinancialOperationUri
             => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("FinancialOperationsUri")}";
-        //should work : "/api/FinancialOperations" or "api/FinancialOperations"
-        public static string OperationTypesUri
+        public string OperationTypesUri
             => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("OperationTypesUri")}";
-        public static string ReportUri
+        public string ReportUri
             => $"{_client.BaseAddress}{System.Configuration.ConfigurationManager.AppSettings.Get("ReportsUri")}";
 
         private static readonly HttpClient _client;

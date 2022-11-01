@@ -45,13 +45,13 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        ObjectForDelete = await client.GetObjectAsync<OperationTypeDetailsDto>($"{HttpService.OperationTypesUri}/{Id}");
+        ObjectForDelete = await client.GetObjectAsync<OperationTypeDetailsDto>($"{client.OperationTypesUri}/{Id}");
 
     }
 
     protected async Task RemoveUser(int id)
     {
-        await client.DeleteObject(HttpService.OperationTypesUri, id);
+        await client.DeleteObject(client.OperationTypesUri, id);
         manager.NavigateTo("/OperationTypes");
     }
     void Cancel()

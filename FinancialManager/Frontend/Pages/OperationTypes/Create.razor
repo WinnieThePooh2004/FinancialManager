@@ -37,7 +37,7 @@
 
     protected async Task Save()
     {
-        await client.PostObject(HttpService.OperationTypesUri, _createDto);
+        await client.PostObject(client.OperationTypesUri, _createDto);
         Back();
     }
 

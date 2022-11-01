@@ -86,14 +86,14 @@
     public async Task ShowDailyReportAsync()
     {
         ReportHeader = "Loading...";
-        Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUri}/GetDailyReport?date={InputDailyReportDate}");
+        Report = await client.GetObjectAsync<ReportDetailsDto>($"{client.ReportUri}/GetDailyReport?date={InputDailyReportDate}");
         ReportHeader = $"Report for {InputDailyReportDate}";
     }
 
     public async Task ShowPeriodReportAsync()
     {
         ReportHeader = "Loading...";
-        Report = await client.GetObjectAsync<ReportDetailsDto>($"{HttpService.ReportUri}/GetPeriodReport?periodStart={InputPeriodStart}&periodEnd={InputPeriodEnd}");
+        Report = await client.GetObjectAsync<ReportDetailsDto>($"{client.ReportUri}/GetPeriodReport?periodStart={InputPeriodStart}&periodEnd={InputPeriodEnd}");
         ReportHeader = $"Report for period from {InputPeriodStart} to {InputPeriodEnd}";
     }
 }

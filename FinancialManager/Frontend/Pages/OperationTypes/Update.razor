@@ -45,7 +45,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var entity = await client.GetObjectAsync<OperationTypeUpdateDto>($"{HttpService.OperationTypesUri}/{Id}");
+        var entity = await client.GetObjectAsync<OperationTypeUpdateDto>($"{client.OperationTypesUri}/{Id}");
         UpdateDto = new OperationTypeUpdateDto
             {
                 Id = entity.Id,
@@ -56,7 +56,7 @@ else
 
     protected async Task Save()
     {
-        await client.PutObject($"{HttpService.OperationTypesUri}/{Id}", UpdateDto);
+        await client.PutObject($"{client.OperationTypesUri}/{Id}", UpdateDto);
         Back();
     }
 

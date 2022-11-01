@@ -2,6 +2,10 @@
 {
     public interface IHttpService
     {
+        public string FinancialOperationUri { get; }
+        public string OperationTypesUri { get; }
+        public string ReportUri { get; }
+
         Task DeleteObject(string uri, int id);
         Task<T> GetObjectAsync<T>(string uri) where T : class;
         Task<T> GetObjectBuyIdAsync<T>(string uri, int id) where T : class;

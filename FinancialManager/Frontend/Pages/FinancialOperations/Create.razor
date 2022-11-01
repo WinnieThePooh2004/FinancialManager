@@ -53,7 +53,7 @@
     {
         try
         {
-            await client.PostObject(HttpService.FinancialOperationUri, CreateDto);
+            await client.PostObject(client.FinancialOperationUri, CreateDto);
         }
         catch
         {
