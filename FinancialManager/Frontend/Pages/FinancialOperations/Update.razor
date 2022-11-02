@@ -54,11 +54,11 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
-    protected FinancialOperationUpdateDto? UpdateDto;
+    public FinancialOperationUpdateDto? UpdateDto;
 
     protected override async Task OnInitializedAsync()
     {
-        var entity = await client.GetObjectAsync<FinancialOperationDetailsDto>($"{client.FinancialOperationUri}/{Id}");
+        var entity = await client.GetObjectByIdAsync<FinancialOperationDetailsDto>(client.FinancialOperationUri, Id);
         UpdateDto = new FinancialOperationUpdateDto()
             {
                 Id = entity.Id,
@@ -71,7 +71,7 @@ else
 
     protected async Task Save()
     {
-        await client.PutObject($"{client.FinancialOperationUri}/{Id}", UpdateDto);
+        await client.PutObject(client.FinancialOperationUri, Id, UpdateDto);
         Back();
     }
 

@@ -78,8 +78,12 @@ namespace Frontend.HttpService
             Console.WriteLine($"\nDelete requst \n{requestString}\nsuccessful\n");
         }
 
-        public async Task PostObject<T>(string uri, T @object) where T : class
+        public async Task PostObject<T>(string uri, T? @object) where T : class
         {
+            if(@object is null)
+            {
+                throw new ArgumentNullException(nameof(@object));
+            }
             Console.WriteLine($"\nSending http post request\n{uri}\n");
             using var response = await _client.PostAsJsonAsync(uri, @object);
             if (!response.IsSuccessStatusCode)
@@ -90,8 +94,13 @@ namespace Frontend.HttpService
             Console.WriteLine($"\nPost request\n{uri}\nsuccessful\n");
         }
 
-        public async Task PutObject<T>(string uri, T @object) where T : class
+        public async Task PutObject<T>(string uri, int id, T? @object) where T : class
         {
+            if(@object is null)
+            {
+                throw new ArgumentNullException(nameof(@object));
+            }
+            uri = $"{uri}/{id}";
             Console.WriteLine($"\nSending http put request\n{uri}\n");
             var response = await _client.PutAsJsonAsync(uri, @object);
             if (!response.IsSuccessStatusCode)
