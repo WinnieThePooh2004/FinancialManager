@@ -33,7 +33,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
             Assert.True(cut.HasMarkupElement("td", "123"));
             Assert.True(cut.HasMarkupElement("td", "10.00 UAH"));
             Assert.True(cut.HasMarkupElement("td", "11"));
-            Assert.True(cut.HasMarkupElement("td", "10.10.2002 00:00:00"));
+            Assert.True(cut.HasMarkupElement("td", "10/10/2002 00:00:00"));
         }
 
         [Fact]
@@ -43,9 +43,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
             var context = new TestContext();
             context.Services.AddSingleton<IHttpService>(new MockFinancialOperationsHttpService(dbContext));
             var cut = context.RenderComponent<Delete>(parameters => parameters.Add(p => p.Id, 123));
-            var buttons = cut.FindAll("button");
-            var requiredButton = buttons.FirstOrDefault(element => element.HasMarkupElement("Delete"));
-            Assert.NotNull(requiredButton);
+            var requiredButton = cut.GetElementBuyItsText("button", "Delete");
             requiredButton.Click();
             Assert.Equal(3, dbContext.FinancialOperations.Count());
         }
@@ -65,9 +63,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
                 Description = "Description",
             };
 
-            var buttons = cut.FindAll("button");
-            var requiredButton = buttons.FirstOrDefault(button => button.HasMarkupElement("Save"));
-            Assert.NotNull(requiredButton);
+            var requiredButton = cut.GetElementBuyItsText("button", "Save");
             requiredButton.Click();
             Assert.Equal(5, dbContext.FinancialOperations.Count());
             Assert.NotNull(dbContext.FinancialOperations.FirstOrDefault(operation => operation.Amount == 5000 && operation.OperationTypeId == 12 &&
@@ -90,7 +86,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
                 Description = "Description",
             };
             var buttons = cut.FindAll("button");
-            var requiredButton = buttons.FirstOrDefault(button => button.HasMarkupElement("Save"));
+            var requiredButton = cut.GetElementBuyItsText("button", "Save");
             Assert.NotNull(requiredButton);
             requiredButton.Click();
             Assert.NotNull(dbContext.FinancialOperations.FirstOrDefault(operation =>

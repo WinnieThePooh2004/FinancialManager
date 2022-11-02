@@ -44,9 +44,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
             using var context = new TestContext();
             context.Services.AddSingleton<IHttpService>(new MockOperationTypesHttpService(dbContext));
             var cut = context.RenderComponent<Delete>(paremeters => paremeters.Add(p => p.Id, 11));
-            var buttons = cut.FindAll("button");
-            var requiredButton = buttons.FirstOrDefault(element => element.HasMarkupElement("Delete"));
-            Assert.NotNull(requiredButton);
+            var requiredButton = cut.GetElementBuyItsText("button", "Delete");
             requiredButton.Click();
             Assert.Equal(1, dbContext.OperationTypes.Count());
             Assert.Equal(2, dbContext.FinancialOperations.Count());
@@ -64,9 +62,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
                 IsIncome = true,
                 Name = "Test"
             };
-            var buttons = cut.FindAll("button");
-            var requiredButton = buttons.FirstOrDefault(element => element.HasMarkupElement("Save"));
-            Assert.NotNull(requiredButton);
+            var requiredButton = cut.GetElementBuyItsText("button", "Save");
             requiredButton.Click();
             Assert.Equal(3, dbContext.OperationTypes.Count());
             Assert.NotNull(dbContext.OperationTypes.FirstOrDefault(type => type.IsIncome && type.Name == "Test"));
@@ -85,12 +81,10 @@ namespace FinancialManagerTest.Tests.FrontendTests
                 IsIncome = false,
                 Name = "Test"
             };
-            var buttons = cut.FindAll("button");
-            var requiredButton = buttons.FirstOrDefault(element => element.HasMarkupElement("Save"));
-            Assert.NotNull(requiredButton);
+            var requiredButton = cut.GetElementBuyItsText("button", "Save");
             requiredButton.Click();
-            Assert.NotNull(dbContext.OperationTypes.FirstOrDefault(type => !type.IsIncome && type.Name == "Test"));
             Assert.Equal(2, dbContext.OperationTypes.Count());
+            Assert.NotNull(dbContext.OperationTypes.FirstOrDefault(type => !type.IsIncome && type.Name == "Test"));
             Assert.NotNull(dbContext.OperationTypes.FirstOrDefault(type => !type.IsIncome && type.Name == "rent"));
         }
     }
