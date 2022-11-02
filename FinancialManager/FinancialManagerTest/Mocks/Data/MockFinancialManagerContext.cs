@@ -16,15 +16,22 @@ namespace FinancialManagerTest.Mocks.Data
 
         public DbSet<OperationType> OperationTypes { get; set; }
 
+        private List<FinancialOperation> _financiaOperationsSourse;
+        private List<OperationType> _operationTypesSourse;
+
         public MockFinancialManagerContext()
         {
-            FinancialOperations = new MockDbSet<FinancialOperation>(CreateFinancialOperations()).Object;
-            OperationTypes = new MockDbSet<OperationType>(CreateOperationTypes()).Object;
+            _financiaOperationsSourse = CreateFinancialOperations();
+            _operationTypesSourse = CreateOperationTypes();
+            FinancialOperations = new MockDbSet<FinancialOperation>(_financiaOperationsSourse).Object;
+            OperationTypes = new MockDbSet<OperationType>(_operationTypesSourse).Object;
         }
 
         public async Task SaveChangesAsync()
         {
             await Task.Delay(1);
+            FinancialOperations = new MockDbSet<FinancialOperation>(_financiaOperationsSourse).Object;
+            OperationTypes = new MockDbSet<OperationType>(_operationTypesSourse).Object;
         }
 
         private List<FinancialOperation> CreateFinancialOperations()

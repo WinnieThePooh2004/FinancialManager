@@ -10,6 +10,7 @@ using FinancialManager.Services.CRUDServices;
 using FinancialManagerTest.Mocks.Data;
 using FinancialManager.MapperProfiles.FinancialOperations;
 using Moq;
+using Shared.DTOs.FinancialOperations;
 
 namespace FinancialManagerTest.Mocks.HttpServices
 {
@@ -23,7 +24,7 @@ namespace FinancialManagerTest.Mocks.HttpServices
 
         public MockFinancialManagerContext Context { get; }
 
-        public MockFinancialOperationsHttpService() 
+        public MockFinancialOperationsHttpService()
         {
             Context = new();
         }
@@ -61,19 +62,21 @@ namespace FinancialManagerTest.Mocks.HttpServices
             var result = (await CreateController(new FinancialOperationDetailsProfile()).GetFinacialOperation(id)).Value;
             if (result is null)
             {
-                throw new Exception();
+                throw new Exception("object is null");
             }
             return result as T ?? throw new Exception();
         }
 
-        public Task PostObject<T>(string uri, T? @object) where T : class
+        public async Task PostObject<T>(string uri, T? @object) where T : class
         {
-            throw new NotImplementedException();
+            await CreateController(new FinancialOperationCreateProfile())
+                .PostFinacialOperation(@object as FinancialOperationCreateDto ?? throw new Exception());
         }
 
-        public Task PutObject<T>(string uri, T? @object) where T : class
+        public async Task PutObject<T>(string uri, int id, T? @object) where T : class
         {
-            throw new NotImplementedException();
+            await CreateController(new FinancialOperationUpdateProfile())
+                .PutFinacialOperation(id, @object as FinancialOperationUpdateDto ?? throw new Exception());
         }
 
         private FinancialOperationsController CreateController(params Profile[] profiles)

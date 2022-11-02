@@ -49,5 +49,54 @@ namespace FinancialManagerTest.Tests.FrontendTests
             requiredButton.Click();
             Assert.Equal(3, dbContext.FinancialOperations.Count());
         }
+
+        [Fact]
+        public void FinancialOperationCreateTest()
+        {
+            var dbContext = new MockFinancialManagerContext();
+            var context = new TestContext();
+            context.Services.AddSingleton<IHttpService>(new MockFinancialOperationsHttpService(dbContext));
+            var cut = context.RenderComponent<Create>();
+            cut.Instance.CreateDto = new Shared.DTOs.FinancialOperations.FinancialOperationCreateDto
+            {
+                Amount = "50.00",
+                OperationTypeId = "12",
+                DateTime = "10.10.2002 10:10:10",
+                Description = "Description",
+            };
+
+            var buttons = cut.FindAll("button");
+            var requiredButton = buttons.FirstOrDefault(button => button.HasMarkupElement("Save"));
+            Assert.NotNull(requiredButton);
+            requiredButton.Click();
+            Assert.Equal(5, dbContext.FinancialOperations.Count());
+            Assert.NotNull(dbContext.FinancialOperations.FirstOrDefault(operation => operation.Amount == 5000 && operation.OperationTypeId == 12 &&
+                                        operation.DateTime == DateTime.Parse("10.10.2002 10:10:10") && operation.Description == "Description"));
+        }
+
+        [Fact]
+        public void TestFinancialOperationUpdateTest()
+        {
+            var dbContext = new MockFinancialManagerContext();
+            var context = new TestContext();
+            context.Services.AddSingleton<IHttpService>(new MockFinancialOperationsHttpService(dbContext));
+            var cut = context.RenderComponent<Update>(parameters => parameters.Add(p => p.Id, 123));
+            cut.Instance.UpdateDto = new Shared.DTOs.FinancialOperations.FinancialOperationUpdateDto
+            {
+                Id = 123,
+                Amount = "50.00",
+                OperationTypeId = "12",
+                DateTime = "10.10.2002 10:10:10",
+                Description = "Description",
+            };
+            var buttons = cut.FindAll("button");
+            var requiredButton = buttons.FirstOrDefault(button => button.HasMarkupElement("Save"));
+            Assert.NotNull(requiredButton);
+            requiredButton.Click();
+            Assert.NotNull(dbContext.FinancialOperations.FirstOrDefault(operation =>
+                            operation.Id == 123 && operation.Amount == 5000 && operation.OperationTypeId == 12 &&
+                            operation.DateTime == DateTime.Parse("10.10.2002 10:10:10") && operation.Description == "Description"));
+
+        }
     }
 }
