@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FinancialManager.Models;
+﻿using FinancialManager.Models;
 using FinancialManager.Data;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace FinancialManagerTest.Mocks.Data
 {
@@ -16,14 +10,21 @@ namespace FinancialManagerTest.Mocks.Data
 
         public DbSet<OperationType> OperationTypes { get; set; }
 
+        private List<FinancialOperation> _financiaOperationsSourse;
+        private List<OperationType> _operationTypesSourse;
+
         public MockFinancialManagerContext()
         {
-            FinancialOperations = new MockDbSet<FinancialOperation>(CreateFinancialOperations()).Object;
-            OperationTypes = new MockDbSet<OperationType>(CreateOperationTypes()).Object;
+            _financiaOperationsSourse = CreateFinancialOperations();
+            _operationTypesSourse = CreateOperationTypes();
+            FinancialOperations = new MockDbSet<FinancialOperation>(_financiaOperationsSourse).Object;
+            OperationTypes = new MockDbSet<OperationType>(_operationTypesSourse).Object;
         }
 
         public async Task SaveChangesAsync()
         {
+            FinancialOperations = new MockDbSet<FinancialOperation>(_financiaOperationsSourse).Object;
+            OperationTypes = new MockDbSet<OperationType>(_operationTypesSourse).Object;
             await Task.Delay(1);
         }
 
@@ -36,28 +37,32 @@ namespace FinancialManagerTest.Mocks.Data
                     Id = 123,
                     Amount = 1000,
                     DateTime = DateTime.Parse("10.10.2002"),
-                    Description = "Got salary", OperationTypeId = 11
+                    Description = "Got salary",
+                    OperationTypeId = 11
                 },
                 new FinancialOperation()
                 {
                     Id = 124,
                     Amount = 1000,
                     DateTime = DateTime.Parse("10.11.2002"),
-                    Description = "Got salary", OperationTypeId = 11
+                    Description = "Got salary",
+                    OperationTypeId = 11
                 },
                 new FinancialOperation()
                 {
                     Id = 125,
                     Amount = 1000,
                     DateTime = DateTime.Parse("10.12.2002"),
-                    Description = "Rent", OperationTypeId = 12
+                    Description = "Rent",
+                    OperationTypeId = 12
                 },
                 new FinancialOperation()
                 {
                     Id = 126,
                     Amount = 1000,
                     DateTime = DateTime.Parse("10.10.2003"),
-                    Description = "Rent", OperationTypeId = 12
+                    Description = "Rent",
+                    OperationTypeId = 12
                 }
             };
         }

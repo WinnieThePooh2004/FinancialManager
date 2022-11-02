@@ -42,17 +42,18 @@ namespace FinancialManagerTest.Tests.BackendTests
         [Fact]
         public async Task TestDeleteNotExistingObjectObject()
         {
-            var service = CreateController();
-            Assert.IsType<NotFoundResult>(await service.DeleteFinacialOperation(1));
+            var controller = CreateController();
+            Assert.IsType<NotFoundResult>(await controller.DeleteFinacialOperation(1));
         }
 
         [Fact]
         public async Task TestDeleteObject()
         {
-            var context = new MockFinancialManagerContext();
-            var service = new FinancialOperationService(context);
-            await service.DeleteAsync(123);
-            Assert.Equal(3, context.FinancialOperations.Count());
+            var controller = CreateController(new FinancialOperationIndexProfile());
+            await controller.DeleteFinacialOperation(123);
+            var financialOperationsAfterDelete = (await controller.GetFinacialOperation()).Value;
+            Assert.NotNull(financialOperationsAfterDelete);
+            Assert.Equal(3, financialOperationsAfterDelete.Count());
         }
 
         [Fact]
@@ -95,8 +96,7 @@ namespace FinancialManagerTest.Tests.BackendTests
         [Fact]
         public async Task TestPostObject()
         {
-            var context = new MockFinancialManagerContext();
-            var controller = CreateController(context, new FinancialOperationCreateProfile());
+            var controller = CreateController(new FinancialOperationCreateProfile(), new FinancialOperationIndexProfile());
             var result = await controller.PostFinacialOperation(new FinancialOperationCreateDto()
             {
                 Description = "description",
@@ -104,7 +104,9 @@ namespace FinancialManagerTest.Tests.BackendTests
                 OperationTypeId = "12"
             });
             Assert.IsType<NoContentResult>(result);
-            Assert.Equal(5, context.FinancialOperations.Count());
+            var listAfterPost = (await controller.GetFinacialOperation()).Value;
+            Assert.NotNull(listAfterPost);
+            Assert.Equal(5, listAfterPost.Count());
         }
 
         [Fact]

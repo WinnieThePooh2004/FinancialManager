@@ -1,20 +1,14 @@
-﻿using Frontend.HttpService;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using FinancialManager.Controllers;
-using AutoMapper;
+using FinancialManager.MapperProfiles.OperationTypes;
 using FinancialManager.Services.CRUDServices;
 using FinancialManagerTest.Mocks.Data;
-using FinancialManager.MapperProfiles.FinancialOperations;
-using Moq;
-using Shared.DTOs.FinancialOperations;
+using Frontend.HttpService;
+using Shared.DTOs.OperationTypes;
 
 namespace FinancialManagerTest.Mocks.HttpServices
 {
-    internal class MockFinancialOperationsHttpService : IHttpService
+    internal class MockOperationTypesHttpService : IHttpService
     {
         public string FinancialOperationUri => "";
 
@@ -24,27 +18,27 @@ namespace FinancialManagerTest.Mocks.HttpServices
 
         public MockFinancialManagerContext Context { get; }
 
-        public MockFinancialOperationsHttpService()
+        public MockOperationTypesHttpService()
         {
             Context = new();
         }
 
-        public MockFinancialOperationsHttpService(MockFinancialManagerContext context)
+        public MockOperationTypesHttpService(MockFinancialManagerContext context)
         {
             Context = context;
         }
 
         public async Task DeleteObject(string uri, int id)
         {
-            var controller = CreateController(new FinancialOperationDetailsProfile());
-            await controller.DeleteFinacialOperation(id);
+            var controller = CreateController(new OperationTypeDetailsProfile());
+            await controller.DeleteOperationType(id);
         }
 
         public async Task<T> GetObjectAsync<T>(string uri) where T : class
         {
             try
             {
-                var result = (await CreateController(new FinancialOperationIndexProfile()).GetFinacialOperation()).Value;
+                var result = (await CreateController(new OperationTypeIndexProfile()).GetOperationType()).Value;
                 if (result is null)
                 {
                     throw new Exception();
@@ -59,7 +53,7 @@ namespace FinancialManagerTest.Mocks.HttpServices
 
         public async Task<T> GetObjectByIdAsync<T>(string uri, int id) where T : class
         {
-            var result = (await CreateController(new FinancialOperationDetailsProfile()).GetFinacialOperation(id)).Value;
+            var result = (await CreateController(new OperationTypeDetailsProfile()).GetOperationType(id)).Value;
             if (result is null)
             {
                 throw new Exception("object is null");
@@ -69,20 +63,20 @@ namespace FinancialManagerTest.Mocks.HttpServices
 
         public async Task PostObject<T>(string uri, T? @object) where T : class
         {
-            await CreateController(new FinancialOperationCreateProfile())
-                .PostFinacialOperation(@object as FinancialOperationCreateDto ?? throw new Exception());
+            await CreateController(new OperationTypeCreateProfile())
+                .PostOperationType(@object as OperationTypeCreateDto ?? throw new Exception());
         }
 
         public async Task PutObject<T>(string uri, int id, T? @object) where T : class
         {
-            await CreateController(new FinancialOperationUpdateProfile())
-                .PutFinacialOperation(id, @object as FinancialOperationUpdateDto ?? throw new Exception());
+            await CreateController(new OperationTypeUpdateProfile())
+                .PutOperationType(id, @object as OperationTypeUpdateDto ?? throw new Exception());
         }
 
-        private FinancialOperationsController CreateController(params Profile[] profiles)
+        private OperationTypesController CreateController(params Profile[] profiles)
         {
             var config = new MapperConfiguration(cfg => cfg.AddProfiles(profiles));
-            return new FinancialOperationsController(new FinancialOperationService(Context), new Mapper(config));
+            return new OperationTypesController(new OperationTypeService(Context), new Mapper(config));
         }
 
     }

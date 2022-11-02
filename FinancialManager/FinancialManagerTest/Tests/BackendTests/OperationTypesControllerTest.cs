@@ -50,8 +50,8 @@ namespace FinancialManagerTest.Tests.BackendTests
         public async Task TestDeleteObject()
         {
             var context = new MockFinancialManagerContext();
-            var service = CreateController(context);
-            await service.DeleteOperationType(12);
+            var controller = CreateController(context);
+            await controller.DeleteOperationType(12);
             Assert.Equal(1, context.OperationTypes.Count());
             Assert.Equal(2, context.FinancialOperations.Count());
         }
@@ -91,14 +91,15 @@ namespace FinancialManagerTest.Tests.BackendTests
         [Fact]
         public async Task TestPostObject()
         {
-            var context = new MockFinancialManagerContext();
-            var controller = CreateController(context, new OperationTypeCreateProfile());
+            var controller = CreateController(new OperationTypeCreateProfile(), new OperationTypeIndexProfile());
             await controller.PostOperationType(new OperationTypeCreateDto()
             {
                 Name = "Test",
                 IsIncome = true,
             });
-            Assert.Equal(3, context.OperationTypes.Count());
+            var operationTypesAfterPost = (await controller.GetOperationType()).Value;
+            Assert.NotNull(operationTypesAfterPost);
+            Assert.Equal(3, operationTypesAfterPost.Count());
         }
 
         private OperationTypesController CreateController(IFinancialManagerContext context, params Profile[] profiles)
