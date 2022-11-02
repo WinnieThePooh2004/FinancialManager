@@ -9,22 +9,22 @@
 
 <h3>Add new income or expense</h3>
 
-<EditForm Model = "@_createDto" OnValidSubmit="@Save">
+<EditForm Model = "@CreateDto" OnValidSubmit="@Save">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="Name" class="form-label">Name</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="_createDto.Name" />
+            <InputText class="form-control" @bind-Value="CreateDto.Name" />
         </div>
-        <ValidationMessage For="@(() => _createDto.Name)" />
+        <ValidationMessage For="@(() => CreateDto.Name)" />
     </div>
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="IsIncome" class="form-check">Is income</label>
         <div class="col-md-4">
-            <InputCheckbox class="form-check" @bind-Value="_createDto.IsIncome" />
+            <InputCheckbox class="form-check" @bind-Value="CreateDto.IsIncome" />
         </div>
-        <ValidationMessage For="@(() => _createDto.IsIncome)" />
+        <ValidationMessage For="@(() => CreateDto.IsIncome)" />
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
@@ -33,11 +33,11 @@
 </EditForm>
 
 @code {
-    protected OperationTypeCreateDto _createDto = new();
+    public OperationTypeCreateDto CreateDto { get; set; } = new();
 
     protected async Task Save()
     {
-        await client.PostObject(client.OperationTypesUri, _createDto);
+        await client.PostObject(client.OperationTypesUri, CreateDto);
         Back();
     }
 
