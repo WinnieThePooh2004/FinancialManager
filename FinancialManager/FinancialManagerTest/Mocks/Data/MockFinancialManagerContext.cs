@@ -29,9 +29,9 @@ namespace FinancialManagerTest.Mocks.Data
 
         public async Task SaveChangesAsync()
         {
-            await Task.Delay(1);
             FinancialOperations = new MockDbSet<FinancialOperation>(_financiaOperationsSourse).Object;
             OperationTypes = new MockDbSet<OperationType>(_operationTypesSourse).Object;
+            await Task.Delay(1);
         }
 
         private List<FinancialOperation> CreateFinancialOperations()

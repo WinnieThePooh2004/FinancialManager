@@ -19,7 +19,7 @@ namespace FinancialManagerTest.Extentions.BUnitExtentions
             {
                 try
                 {
-                    element.MarkupMatches($"<{cssSelector}>123</{cssSelector}>");
+                    element.HasMarkupElement(markupElement);
                 }
                 catch
                 {
