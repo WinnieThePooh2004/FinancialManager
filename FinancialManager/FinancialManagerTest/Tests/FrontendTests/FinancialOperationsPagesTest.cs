@@ -33,7 +33,7 @@ namespace FinancialManagerTest.Tests.FrontendTests
             Assert.True(cut.HasMarkupElement("td", "123"));
             Assert.True(cut.HasMarkupElement("td", "10.00 UAH"));
             Assert.True(cut.HasMarkupElement("td", "11"));
-            Assert.True(cut.HasMarkupElement("td", "10/10/2002 12:00:00 AM"));
+            Assert.True(cut.HasMarkupElement("td", "10/10/2002 00:00:00"));
         }
 
         [Fact]
