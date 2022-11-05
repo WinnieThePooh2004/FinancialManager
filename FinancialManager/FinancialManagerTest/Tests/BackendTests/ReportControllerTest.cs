@@ -13,7 +13,7 @@ using FinancialManager.MapperProfiles.ReportProfiles;
 
 namespace FinancialManagerTest.Tests.BackendTests
 {
-    public class TestReportService
+    public class ReportControllerTest
     {
         [Fact]
         public async Task TestDailyReport()
@@ -35,8 +35,8 @@ namespace FinancialManagerTest.Tests.BackendTests
             var report = response.Value;
             Assert.NotNull(report);
             Assert.Equal("10.00 UAH", report.TotalExprenses);
-            Assert.Equal("10.00 UAH", report.TotalIncome);
-            Assert.Equal(2, report.Operations.Count);
+            Assert.Equal("20.00 UAH", report.TotalIncome);
+            Assert.Equal(3, report.Operations.Count);
         }
 
         [Fact]

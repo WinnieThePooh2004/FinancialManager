@@ -28,7 +28,7 @@ namespace FinancialManagerTest.Mocks.Data
             await Task.Delay(1);
         }
 
-        private List<FinancialOperation> CreateFinancialOperations()
+        private static List<FinancialOperation> CreateFinancialOperations()
         {
             return new List<FinancialOperation>
             {
@@ -67,7 +67,7 @@ namespace FinancialManagerTest.Mocks.Data
             };
         }
 
-        private List<OperationType> CreateOperationTypes()
+        private static List<OperationType> CreateOperationTypes()
         {
             return new List<OperationType>
             {

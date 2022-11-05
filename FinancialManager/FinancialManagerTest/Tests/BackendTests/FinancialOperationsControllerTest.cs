@@ -30,6 +30,10 @@ namespace FinancialManagerTest.Tests.BackendTests
             var entity = (await controller.GetFinacialOperation(123)).Value;
             Assert.NotNull(entity);
             Assert.Equal(123, entity.Id);
+            Assert.Equal("10.00 UAH", entity.Amount);
+            Assert.Equal("Got salary", entity.Description);
+            Assert.Equal("10/10/2002 12:00:00 AM", entity.DateTime);
+            Assert.Equal(11, entity.OperationTypeId);
         }
         [Fact]
         public async Task TestFinancialOperationGetNotExistingObjectById()
