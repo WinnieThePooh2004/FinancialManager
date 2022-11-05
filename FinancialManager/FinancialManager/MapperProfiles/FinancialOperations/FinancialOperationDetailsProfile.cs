@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FinancialManager.Models;
 using Shared.DTOs.FinancialOperations;
+using System.Globalization;
+
 namespace FinancialManager.MapperProfiles.FinancialOperations
 {
     public class FinancialOperationDetailsProfile : Profile
