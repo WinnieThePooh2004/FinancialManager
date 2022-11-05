@@ -13,7 +13,7 @@ using FinancialManager.MapperProfiles.ReportProfiles;
 
 namespace FinancialManagerTest.Tests.BackendTests
 {
-    public class TestReportService
+    public class ReportControllerTest
     {
         [Fact]
         public async Task TestDailyReport()
