@@ -1,48 +1,5 @@
 ﻿@page "/OperationTypes/Create/"
 
-@using HttpService
-@using Shared.DTOs.OperationTypes;
-
-@inject NavigationManager manager
-@inject IHttpService client
+@using Frontend.Components
 <PageTitle>Add operation type</PageTitle>
-
-<h3>Add new income or expense</h3>
-
-<EditForm Model = "@CreateDto" OnValidSubmit="@Save">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="Name" class="form-label">Name</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="CreateDto.Name" />
-        </div>
-        <ValidationMessage For="@(() => CreateDto.Name)" />
-    </div>
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="IsIncome" class="form-check">Is income</label>
-        <div class="col-md-4">
-            <InputCheckbox class="form-check" @bind-Value="CreateDto.IsIncome" />
-        </div>
-        <ValidationMessage For="@(() => CreateDto.IsIncome)" />
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button class="btn btn-light" @onclick="Back">Cancel</button>
-    </div>
-</EditForm>
-
-@code {
-    public OperationTypeCreateDto CreateDto { get; set; } = new();
-
-    protected async Task Save()
-    {
-        await client.PostObject(client.OperationTypesUri, CreateDto);
-        Back();
-    }
-
-    protected void Back()
-    {
-        manager.NavigateTo("/OperationTypes");
-    }
-}
+<OperationTypeEditForm Model="new()" OnSubmited="Save" />

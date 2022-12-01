@@ -1,69 +1,46 @@
 ﻿@page "/FinancialOperations/details/{id:int}"
 <h3>Delete</h3>
 
-@using HttpService;
-@using Shared.DTOs.FinancialOperations
-
-@inject NavigationManager manager
-@inject IHttpService client
-
 <PageTitle>Operation details</PageTitle>
 
-@if (Operation is null)
+@if (_operation is null)
 {
     <p><em>Loading...</em></p>
+    return;
 }
-else
-{
-    <div class="form-group">
-        <h4>"@Operation.Description" Operation details</h4>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>Id</td>
-                    <td>@Operation.Id</td>
-                </tr>
-                <tr>
-                    <td>Date time</td>
-                    <td>@Operation.DateTime</td>
-                </tr>
-                <tr>
-                    <td>Amount</td>
-                    <td>@Operation.Amount</td>
-                </tr>
-                <tr>
-                    <td>Description</td>
-                    <td>@Operation.Description</td>
-                </tr>
-                <tr>
-                    <td>Operation type id</td>
-                    <td>@Operation.OperationTypeId</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="form-group">
-        <a href='/FinancialOperations/Update/@Operation.Id' class="btn btn-outline-dark" role="button">
-            Edit
-        </a>
-        <a href='/FinancialOperations/delete/@Operation.Id' class="btn btn-outline-danger" role="button">
-            Delete
-        </a>
-        <input type="submit" value="Back" @onclick="(() => Back())" class="btn btn-warning" />
-    </div>
-}
-@code {
-    [Parameter]
-    public int Id { get; set; }
-    public FinancialOperationDetailsDto? Operation{ get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Operation = await client.GetObjectByIdAsync<FinancialOperationDetailsDto>(client.FinancialOperationUri, Id);
-    }
-
-    void Back()
-    {
-        manager.NavigateTo("/FinancialOperations");
-    }
-}
+<div class="form-group">
+    <h4>"@_operation.Description" operation details</h4>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Id</td>
+                <td>@_operation.Id</td>
+            </tr>
+            <tr>
+                <td>Date time</td>
+                <td>@_operation.DateTime</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td>@_operation.Amount</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td>@_operation.Description</td>
+            </tr>
+            <tr>
+                <td>Operation type id</td>
+                <td>@_operation.OperationTypeId</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <a href='/FinancialOperations/Update/@_operation.Id' class="btn btn-outline-dark" role="button">
+        Edit
+    </a>
+    <a href='/FinancialOperations/delete/@_operation.Id' class="btn btn-outline-danger" role="button">
+        Delete
+    </a>
+    <input type="submit" value="Back" @onclick="(Back)" class="btn btn-warning" />
+</div>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
-using FinancialManager.Services.ReportService;
-using Shared.DTOs.Reports;
+using FinancialManager.Shared.Interfaces.Services;
 
 namespace FinancialManager.Controllers
 {
@@ -10,25 +8,23 @@ namespace FinancialManager.Controllers
     public class ReportsController : ControllerBase
     {
         private readonly IReportService _service;
-        private readonly IMapper _mapper;
-        public ReportsController(IReportService service, IMapper mapper)
+        public ReportsController(IReportService service)
         {
             _service = service;
-            _mapper = mapper;
         }
 
         [Route("GetDailyReport")]
         [HttpGet]
-        public async Task<ActionResult<ReportDetailsDto>> GetDailyReport([FromQuery] DateTime date)
+        public async Task<IActionResult> GetDailyReport([FromQuery] DateTime date)
         {
-            return _mapper.Map<ReportDetailsDto>(await _service.DailyReportAsync(date));
+            return Ok(await _service.DailyReportAsync(date));
         }
 
         [Route("GetPeriodReport")]
         [HttpGet]
-        public async Task<ActionResult<ReportDetailsDto>> GetReportByPeriod([FromQuery]DateTime periodStart, [FromQuery]DateTime periodEnd)
+        public async Task<IActionResult> GetReportByPeriod([FromQuery]DateTime periodStart, [FromQuery]DateTime periodEnd)
         {
-            return _mapper.Map<ReportDetailsDto>(await _service.PeriodReportAsync(periodStart, periodEnd));
+            return Ok(await _service.PeriodReportAsync(periodStart, periodEnd));
         }
     }
 }

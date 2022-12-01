@@ -1,67 +1,13 @@
 ﻿@page "/OperationTypes/Update/{id:int}"
 
-@using HttpService
-@using Shared.DTOs.OperationTypes;
+@using Frontend.Components
 
-@inject NavigationManager manager
-@inject IHttpService client
 <PageTitle>Edit operation type</PageTitle>
 
-@if (UpdateDto is null)
+@if (_operationType is null)
 {
     <p><em>Loading...</em></p>
+    return;
 }
-else
-{
-    <h3>Update "@UpdateDto.Name" operation</h3>
-
-    <EditForm Model="UpdateDto" OnValidSubmit="Save">
-        <DataAnnotationsValidator />
-        <div class="mb-3">
-            <label for="Name" class="form-label">Name</label>
-            <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="UpdateDto.Name" />
-            </div>
-            <ValidationMessage For="@(() => UpdateDto.Name)" />
-        </div>
-        <div class="mb-3">
-            <label for="IsIncome" class="form-check">Is income</label>
-            <div class="col-md-4">
-                <InputCheckbox class="form-check" @bind-Value="UpdateDto.IsIncome" />
-            </div>
-            <ValidationMessage For="@(() => UpdateDto.IsIncome)" />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button class="btn btn-light" @onclick="Back">Cancel</button>
-        </div>
-    </EditForm>
-}
-
-@code {
-    [Parameter]
-    public int Id { get; set; }
-    public OperationTypeUpdateDto? UpdateDto { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var entity = await client.GetObjectByIdAsync<OperationTypeDetailsDto>(client.OperationTypesUri, Id);
-        UpdateDto = new OperationTypeUpdateDto
-            {
-                Id = entity.Id,
-                IsIncome = entity.IsIncome,
-                Name = entity.Name
-            };
-    }
-
-    protected async Task Save()
-    {
-        await client.PutObject(client.OperationTypesUri, Id, UpdateDto);
-        Back();
-    }
-
-    protected void Back()
-    {
-        manager.NavigateTo("/OperationTypes");
-    }
-}
+<h3>Edit @(_operationType.IsIncome ? "income" :"expense") "@_operationType.Name"</h3>
+<OperationTypeEditForm Model="_operationType" OnSubmited="Save" />

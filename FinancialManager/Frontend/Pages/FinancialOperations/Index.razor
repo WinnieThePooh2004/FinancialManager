@@ -1,75 +1,50 @@
 ﻿@page "/FinancialOperations"
 
 <PageTitle>Financial operations</PageTitle>
-
-@using Newtonsoft.Json
-@using HttpService
-@using Shared.DTOs.FinancialOperations
-@inject IHttpService client
-<PageTitle>All operations</PageTitle>
-
-<h1>Your financial operation:</h1>
-@if (Operations is null)
+@if (_operations is null)
 {
     <p><em>Loading...</em></p>
+    return;
 }
-else
-{
-    <div class="row">
-        <div class="col-md-6">
-            <a href='/FinancialOperations/create/' class="btn btn-primary" role="button">
-                <i class="fas fa-user-plus"></i>
-                Add
-            </a>
-        </div>
+<div class="row">
+    <div class="col-md-6">
+        <a href='/FinancialOperations/create/' class="btn btn-primary" role="button">
+            <i class="fas fa-user-plus"></i>
+            Add
+        </a>
     </div>
-    <br />
-    <table class="table table-striped align-middle table-bordered">
-        <thead class="table-success">
+</div>
+<br />
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+        <tr>
+            <th>Date and time</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Operation type id</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var operation in _operations)
+        {
             <tr>
-                <th>Date and time</th>
-                <th>Amount</th>
-                <th>Description</th>
-                <th>Operation type id</th>
-                <th>Actions</th>
+                <td>@operation.DateTime</td>
+                <td>@(((double)operation.Amount / 100).ToString("0.00"))</td>
+                <td>@operation.Description</td>
+                <td>@operation.OperationTypeId</td>
+                <td>
+                    <a href='/FinancialOperations/Update/@operation.Id' class="btn btn-outline-dark" role="button">
+                        Edit
+                    </a>
+                    <a href='/FinancialOperations/Details/@operation.Id' class="btn btn-outline-dark" role="button">
+                        Details
+                    </a>
+                    <a class="btn btn-outline-danger" role="button" onclick="@(async () => await Delete(operation))">
+                        Delete
+                    </a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var operation in Operations)
-            {
-                <tr>
-                    <td>@operation.DateTime</td>
-                    <td>@operation.Amount</td>
-                    <td>@operation.Description</td>
-                    <td>@operation.OperationTypeId</td>
-                    <td>
-                        <a href='/FinancialOperations/Update/@operation.Id' class="btn btn-outline-dark" role="button">
-                            Edit
-                        </a>
-                        <a href='/FinancialOperations/Details/@operation.Id' class="btn btn-outline-dark" role="button">
-                            Details
-                        </a>
-                        <a href='/FinancialOperations/delete/@operation.Id' class="btn btn-outline-danger" role="button">
-                            Delete
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-@code {
-    public List<FinancialOperationIndexDto>? Operations { get; set; }
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            Operations = await client.GetObjectAsync<List<FinancialOperationIndexDto>>(client.FinancialOperationUri);
         }
-        catch
-        {
-            Operations = new();
-        }
-    }
-}
+    </tbody>
+</table>

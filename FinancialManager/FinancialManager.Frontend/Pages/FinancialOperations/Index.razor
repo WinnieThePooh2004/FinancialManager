@@ -1,0 +1,31 @@
+﻿@page "/FinancialOperations"
+<h1>Financial operation</h1>
+<MudGrid>
+    <MudItem xs="9">
+        <MudTable Items="_operation"
+                Hover="true" Breakpoint="Breakpoint.Sm" RightAlignSmall="true" LoadingProgressColor="Color.Info"
+                @ref="_table" RowsPerPage="5">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Financial operations</MudText>
+                <MudSpacer />
+            </ToolBarContent>
+            <ColGroup>                
+                <col style="width: 80%;" />
+                <col />
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Date and time</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>Description</MudTh>
+                <MudTh>Operation type id</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Date and time">@context.DateTime</MudTd>
+                <MudTd DataLabel="Amount">@context.Amount</MudTd>
+                <MudTd DataLabel="Description">@context.Description</MudTd>
+                <MudTd DataLabel="Operation type id">@context.OperationTypeId</MudTd>
+            </RowTemplate>
+        </MudTable>        
+    </MudItem>
+</MudGrid>

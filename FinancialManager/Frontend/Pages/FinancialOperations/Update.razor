@@ -1,82 +1,10 @@
 ﻿@page "/FinancialOperations/Update/{id:int}"
 
-@using HttpService
-@using Shared.DTOs.FinancialOperations;
-
-@inject NavigationManager manager
-@inject IHttpService client
 <PageTitle>Edit operation</PageTitle>
-
-@if (UpdateDto is null)
+@using Frontend.Components
+@if (_financialOperation is null)
 {
     <p><em>Loading...</em></p>
+    return;
 }
-else
-{
-    <h3>Edit "@UpdateDto.Description" operation</h3>
-
-    <EditForm Model="UpdateDto" OnValidSubmit="Save">
-        <DataAnnotationsValidator />
-        <div class="mb-3">
-            <label for="DateTime" class="form-label">Date Time</label>
-            <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="UpdateDto.DateTime" />
-            </div>
-            <ValidationMessage For="@(() => UpdateDto.DateTime)" />
-        </div>
-        <div class="mb-3">
-            <label for="Amount" class="form-label">Amount</label>
-            <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="UpdateDto.Amount" />
-            </div>
-            <ValidationMessage For="@(() => UpdateDto.Amount)" />
-        </div>
-        <div class="mb-3">
-            <label for="Description" class="form-label">Description</label>
-            <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="UpdateDto.Description" />
-            </div>
-            <ValidationMessage For="@(() => UpdateDto.Description)" />
-        </div>
-        <div class="mb-3">
-            <label for="OperationTypeId" class="form-label">Operation type id</label>
-            <div class="col-md-4">
-                <InputText class="form-control" @bind-Value="UpdateDto.OperationTypeId" />
-            </div>
-            <ValidationMessage For="@(() => UpdateDto.OperationTypeId)" />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button class="btn btn-light" @onclick="Back">Cancel</button>
-        </div>
-    </EditForm>
-}
-@code {
-    [Parameter]
-    public int Id { get; set; }
-    public FinancialOperationUpdateDto? UpdateDto;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var entity = await client.GetObjectByIdAsync<FinancialOperationDetailsDto>(client.FinancialOperationUri, Id);
-        UpdateDto = new FinancialOperationUpdateDto()
-            {
-                Id = entity.Id,
-                Description = entity.Description,
-                DateTime = entity.DateTime,
-                Amount = entity.Amount.Remove(entity.Amount.Length - 4),
-                OperationTypeId = entity.OperationTypeId.ToString()
-            };
-    }
-
-    protected async Task Save()
-    {
-        await client.PutObject(client.FinancialOperationUri, Id, UpdateDto);
-        Back();
-    }
-
-    protected void Back()
-    {
-        manager.NavigateTo("/FinancialOperations");
-    }
-}
+<FinancialOperationEditForm Model="_financialOperation" OnSubmited="async (model) => await Save(model) " />

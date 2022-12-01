@@ -1,6 +1,5 @@
 using Frontend.HttpService;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Frontend.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<IHttpService, HttpService>();
+builder.Services.AddScoped<IFinancialOperationRequests, FinancialOperationRequests>();
+builder.Services.AddScoped<IOperationTypesRequests, OperationTypesRequests>();
+
+builder.Services.AddHttpClient("FMApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7203/");
+});
 
 var app = builder.Build();
 

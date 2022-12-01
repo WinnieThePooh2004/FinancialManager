@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using FinancialManager.Models;
-using Shared.DTOs.FinancialOperations;
-using AutoMapper;
-using FinancialManager.Services.CRUDServices;
+using FinancialManager.Shared.Interfaces.Services;
+using FinancialManager.Shared.DTOs;
 
 namespace FinancialManager.Controllers
 {
@@ -10,95 +8,49 @@ namespace FinancialManager.Controllers
     [ApiController]
     public class FinancialOperationsController : ControllerBase
     {
-        private readonly IService<FinancialOperation> _service;
-        private readonly IMapper _mapper;
+        private readonly ICRUDService<FinancialOperationDTO> _service;
 
-        public FinancialOperationsController(IService<FinancialOperation> service, IMapper mapper)
+        public FinancialOperationsController(ICRUDService<FinancialOperationDTO> service)
         {
             _service = service;
-            _mapper = mapper;
         }
 
         // GET: api/FinacialOperations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FinancialOperationIndexDto>>> GetFinacialOperation()
+        public async Task<IActionResult> GetFinacialOperation()
         {
-            try
-            {
-                return _mapper.Map<List<FinancialOperationIndexDto>>(await _service.GetAllAsync());
-            }
-            catch (Exception ex) 
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(await _service.GetAllAsync());
         }
 
         // GET: api/FinacialOperations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<FinancialOperationDetailsDto>> GetFinacialOperation(int id)
+        public async Task<IActionResult> GetFinacialOperation(int id)
         {
-            FinancialOperation entity;
-            try
-            {
-                entity = await _service.GetAsync(id);
-            }
-            catch (Exception)
-            {
-                return NotFound();
-            }
-
-            return _mapper.Map<FinancialOperationDetailsDto>(entity);
+            var entity = await _service.GetByIdAsync(id);
+            return Ok(entity);
         }
 
-        // PUT: api/FinacialOperations/5
+        // PUT: api/FinacialOperations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFinacialOperation(int id, FinancialOperationUpdateDto finacialOperation)
+        [HttpPut]
+        public async Task<IActionResult> PutFinacialOperation(FinancialOperationDTO finacialOperation)
         {
-            try
-            {
-                await _service.UpdateAsync(id, _mapper.Map<FinancialOperation>(finacialOperation));
-            }
-            catch (Exception ex)
-            {
-                if(ex.Message == "Not found")
-                {
-                    return NotFound();
-                }
-                return BadRequest();
-            }
-            return NoContent();
+            return Ok(await _service.UpdateAsync(finacialOperation));
         }
 
         // POST: api/FinacialOperations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult> PostFinacialOperation(FinancialOperationCreateDto finacialOperation)
-        {
-            try
-            {
-                await _service.AddAsync(_mapper.Map<FinancialOperation>(finacialOperation));
-            }
-            catch (Exception) 
-            {
-                return BadRequest();
-            }
-            return NoContent();
+        public async Task<ActionResult> PostFinacialOperation(FinancialOperationDTO finacialOperation)
+        {          
+            return Ok(await _service.CreateAsync(finacialOperation));
         }
 
         // DELETE: api/FinacialOperations/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFinacialOperation(int id)
-        {
-            try
-            {
-                await _service.DeleteAsync(id);
-            }
-            catch
-            {
-                return NotFound();
-            }
-            return NoContent();
+        {          
+            return Ok(await _service.DeleteAsync(id));
         }
     }
 }

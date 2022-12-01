@@ -1,22 +1,40 @@
 using Microsoft.EntityFrameworkCore;
-using FinancialManager.Data;
-using FinancialManager.Models;
-using FinancialManager.Services.CRUDServices;
-using FinancialManager.Services.ReportService;
+using FinancialManager.Shared.Models;
+using FinancialManager.Shared.DTOs;
+using FinancialManager.Infrastructure.Repositiories;
+using FinancialManager.MiddlewareFilters;
+using FinancialManager.Shared.Interfaces.Repositiories;
+using FinancialManager.Shared.Interfaces.Services;
+using FinancialManager.Infrastructure;
+using FinancialManager.Domain.Services;
+using FluentValidation.AspNetCore;
+using System.Reflection;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IFinancialManagerContext, FinancialManagerContext>();
 builder.Services.AddDbContext<FinancialManagerContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FinancialManagerContext") ?? throw new InvalidOperationException("Connection string 'FinancialManagerContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FinancialManagerContext") 
+        ?? throw new InvalidOperationException("Connection string 'FinancialManagerContext' not found.")));
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<MiddlewareExceptionFilter>();
+});
 
-builder.Services.AddScoped<IService<FinancialOperation>, FinancialOperationService>();
-builder.Services.AddScoped<IService<OperationType>, OperationTypeService>();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssembly(Assembly.Load("FinancialManager.Domain"));
+
+builder.Services.AddAutoMapper(Assembly.Load("FinancialManager.Domain"));
+
+builder.Services.AddScoped<ICRUDService<FinancialOperationDTO>, FinancialOperationService>();
+builder.Services.AddScoped<ICRUDService<OperationTypeDTO>, OperationTypeService>();
+builder.Services.AddScoped<ICRUDRepository<FinancialOperation>, FinantialOperationRepository>();
+builder.Services.AddScoped<ICRUDRepository<OperationType>, OperationTypeRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
