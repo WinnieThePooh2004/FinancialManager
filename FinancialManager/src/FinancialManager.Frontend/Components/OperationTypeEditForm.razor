@@ -1,0 +1,12 @@
+﻿<MudCard>
+    <MudForm @ref="_form" Validation="_validator.ValidateValue">
+        <MudCardContent>
+            <MudTextField @bind-Value="Model.Name" For="@(() => Model.Name)" Label="Name" />
+            <MudCheckBox @bind-Checked="Model.IsIncome" For="@(() => Model.IsIncome)" Label="Is income?" />
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions Color="Color.Primary" Variant="Variant.Filled" Class="ml-auto" OverrideStyles="false">
+        <MudButton Color="Color.Error" OnClick="Back">Back</MudButton>
+        <MudButton ButtonType="ButtonType.Submit" Color="Color.Success" OnClick="Submit">Save</MudButton>
+    </MudCardActions>
+</MudCard>

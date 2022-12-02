@@ -1,0 +1,10 @@
+﻿@page "/FinancialOperations/Update/{id:int}"
+
+<PageTitle>Edit operation</PageTitle>
+@using FinancialManager.Frontend.Components
+@if (_financialOperation is null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+<FinancialOperationEditForm Model="_financialOperation" OnSubmited="@(async (model) => await Save(model))" />

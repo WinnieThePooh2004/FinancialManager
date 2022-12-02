@@ -1,0 +1,34 @@
+﻿@page "/FinancialOperations"
+<h1>Financial operations</h1>
+<MudGrid>
+    <MudItem xs="9">
+        <MudButton Color="Color.Success" Href="/FinancialOperations/create">Create new</MudButton>
+        <MudTable ServerData="LoadData"
+                  Hover="true" Breakpoint="Breakpoint.Sm" RightAlignSmall="true" LoadingProgressColor="Color.Info"
+                  @ref="_table" RowsPerPage="5">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Financial operations</MudText>
+                <MudSpacer />
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Description</MudTh>
+                <MudTh>Amount</MudTh>
+                <MudTh>Date and time</MudTh>
+                <MudTh>Operation type id</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Description">@context.Description</MudTd>
+                <MudTd DataLabel="Amount">@((((double)context.Amount) / 100).ToString("0.00"))</MudTd>
+                <MudTd DataLabel="Date and time">@context.DateTime.ToString("G")</MudTd>
+                <MudTd DataLabel="Operation type id">@context.OperationTypeId</MudTd>
+                <MudTd>
+                    <MudButtonGroup>
+                        <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Href="@($"FinancialOperations/update/{context.Id}")">Edit</MudButton>
+                        <MudButton Color="Color.Error" OnClick="@(async () => await Delete(context.Id))">Delete</MudButton>
+                    </MudButtonGroup>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudItem>
+</MudGrid>

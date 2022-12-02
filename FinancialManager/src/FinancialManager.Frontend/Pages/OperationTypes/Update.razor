@@ -1,0 +1,10 @@
+﻿@page "/OperationTypes/update/{id}"
+
+@using FinancialManager.Frontend.Components
+@if(_operationType is null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+<h3>Update @_operationType.Name operation type</h3>
+<OperationTypeEditForm Model="_operationType" OnSubmited="Save"/>

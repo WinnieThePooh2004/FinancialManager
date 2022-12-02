@@ -1,0 +1,30 @@
+﻿@page "/OperationTypes"
+
+<MudGrid>
+    <MudItem xs="9">
+        <MudButton Color="Color.Success" Href="/OperationTypes/create">Create new</MudButton>
+        <MudTable ServerData="LoadData"
+                  Hover="true" Breakpoint="Breakpoint.Sm" RightAlignSmall="true" LoadingProgressColor="Color.Info"
+                  @ref="_table" RowsPerPage="5">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Operation types</MudText>
+                <MudSpacer />
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Name</MudTh>
+                <MudTh>Is income?</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.Name</MudTd>
+                <MudTd DataLabel="">@context.IsIncome</MudTd>
+                <MudTd>
+                    <MudButtonGroup>
+                        <MudButton ButtonType="ButtonType.Reset" Color="Color.Primary" Href="@($"OperationTypes/update/{context.Id}")">Edit</MudButton>
+                        <MudButton Color="Color.Error" OnClick="@(async () => await Delete(context.Id))">Delete</MudButton>
+                    </MudButtonGroup>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </MudItem>
+</MudGrid>

@@ -1,0 +1,13 @@
+﻿@page "/Report/Period"
+
+@using FinancialManager.Frontend.Components
+
+<MudDatePicker T="DateTime" Date="_begin" Label="Period begin" DateChanged="@(date => _begin = date ?? DateTime.Now)" />
+<MudDatePicker T="DateTime" Date="_end" Label="Period end" DateChanged="@(date => _end = date ?? DateTime.Now)" />
+<MudButton Color="Color.Success" OnClick="GetReport">Get report!</MudButton>
+@if (_report is null)
+{
+    <p>No report yet</p>
+    return;
+}
+<Report Model="_report" />

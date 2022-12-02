@@ -1,0 +1,36 @@
+﻿<MudCard>
+    <MudItem xs="9">
+        <MudSimpleTable>
+            <MudTr>
+                <MudTr>Total exprenses</MudTr>
+                <MudTr>@((((double)Model.TotalExprenses) / 100).ToString("0.00"))</MudTr>
+                </MudTr>
+                <MudTr>
+                    <MudTr>Total income</MudTr>
+                    <MudTr>@((((double)Model.TotalIncome) / 100).ToString("0.00"))</MudTr>
+                </MudTr>
+            </MudSimpleTable>
+        </MudItem>
+        <MudItem xs="9">
+            <MudTable Items="Model.Operations"
+                  Hover="true" Breakpoint="Breakpoint.Sm" RightAlignSmall="true" LoadingProgressColor="Color.Info"
+                  RowsPerPage="5">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Financial operations</MudText>
+                    <MudSpacer />
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>Description</MudTh>
+                    <MudTh>Amount</MudTh>
+                    <MudTh>Date and time</MudTh>
+                    <MudTh>Operation type id</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="Amount">@((((double)context.Amount) / 100).ToString("0.00"))</MudTd>
+                    <MudTd DataLabel="Date and time">@context.DateTime.ToString("G")</MudTd>
+                    <MudTd DataLabel="Operation type id">@context.OperationTypeId</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudItem>
+    </MudCard>

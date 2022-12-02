@@ -1,0 +1,26 @@
+﻿@if (Model is null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+
+<MudCard>
+    <MudForm @ref="form" Validation="_validator.ValidateValue">
+        <MudCardContent>
+            <MudTextField @bind-Value="Model.Description" For="@(() => Model.Description)" Label="Description" />
+            <MudDatePicker Date="Model.DateTime.Date" DateChanged="DateChanged" />
+            <MudTimePicker Time="Model.DateTime.TimeOfDay" TimeChanged="TimeChanged" />
+            <MudTextField @bind-Value="Model.Amount" For="@(() => Model.Amount)" Label="Amoutn" />
+            <MudSelect T="int" @bind-Value="Model.OperationTypeId" For="@(() => Model.OperationTypeId)" Label="OperationTypeId">
+                @foreach (var type in _allOperations)
+                {
+                    <MudSelectItem Value="type.Id">@type.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions Color="Color.Primary" Variant="Variant.Filled" Class="ml-auto" OverrideStyles="false">
+        <MudButton Color="Color.Error" OnClick="Back">Back</MudButton>
+        <MudButton ButtonType="ButtonType.Submit" Color="Color.Success" OnClick="Submit">Save</MudButton>
+    </MudCardActions>
+</MudCard>

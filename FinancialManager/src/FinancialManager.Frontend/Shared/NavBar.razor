@@ -1,0 +1,16 @@
+﻿<MudDrawer @bind-Open="SideBarOpen" Elevation="1">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h5" Color="Color.Primary" Style="margin-top:10px; margin-left:15px;">Financial manager</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Filled.Home">Home</MudNavLink>
+        <MudNavLink Href="/FinancialOperations" Match="NavLinkMatch.All" Icon="@Icons.Filled.Money">Financial Operations</MudNavLink>
+        <MudNavLink Href="/OperationTypes" Match="NavLinkMatch.All" Icon="@Icons.Filled.Money">Operation types</MudNavLink>
+        <MudNavLink Href="/Report/Daily" Match="NavLinkMatch.All" Icon="@Icons.Filled.Money">Daily report</MudNavLink>
+        <MudNavLink Href="/Report/Period" Match="NavLinkMatch.All" Icon="@Icons.Filled.Money">Period report</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
+
+@code {
+    [Parameter] public bool SideBarOpen{ get; set; }
+}
