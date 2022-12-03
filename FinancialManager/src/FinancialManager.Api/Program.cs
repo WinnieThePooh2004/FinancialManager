@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using FinancialManager.Shared.Models;
 using FinancialManager.Shared.DTOs;
 using FinancialManager.Infrastructure.Repositiories;
-using FinancialManager.MiddlewareFilters;
+using FinancialManager.Api.MiddlewareFilters;
 using FinancialManager.Shared.Interfaces.Repositiories;
 using FinancialManager.Shared.Interfaces.Services;
 using FinancialManager.Infrastructure;

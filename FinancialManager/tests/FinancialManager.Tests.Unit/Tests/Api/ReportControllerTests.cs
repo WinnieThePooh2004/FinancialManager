@@ -1,5 +1,5 @@
 using FinancialManager.Shared.Interfaces.Services;
-using FinancialManager.Controllers;
+using FinancialManager.Api.Controllers;
 using FinancialManager.Shared.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

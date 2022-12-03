@@ -2,8 +2,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33015.44
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager", "src\FinancialManager\FinancialManager.csproj", "{EF54667E-662B-4013-8E06-AACB76ABAC0E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Infrastructure", "src\FinancialManager.Infrastructure\FinancialManager.Infrastructure.csproj", "{E48A20F8-9D3A-4349-A5B9-431C80CB395A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Shared", "src\FinancialManager.Shared\FinancialManager.Shared.csproj", "{FD76C847-2022-4AB8-8029-498E63C9CD30}"
@@ -18,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Frontend",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Tests.Shared", "tests\FinancialManager.Tests.Shared\FinancialManager.Tests.Shared.csproj", "{5DA4387A-DBFD-4533-A3CC-32EA703C81C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Tests.Integration", "tests\FinancialManager.Tests.Integration\FinancialManager.Tests.Integration.csproj", "{38A6485D-4309-43D7-BA3D-92A8DAF73886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinancialManager.Tests.Integration", "tests\FinancialManager.Tests.Integration\FinancialManager.Tests.Integration.csproj", "{38A6485D-4309-43D7-BA3D-92A8DAF73886}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinancialManager.Api", "src\FinancialManager.Api\FinancialManager.Api.csproj", "{913C741D-B67B-449D-9476-0799655F61D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +26,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EF54667E-662B-4013-8E06-AACB76ABAC0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF54667E-662B-4013-8E06-AACB76ABAC0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF54667E-662B-4013-8E06-AACB76ABAC0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF54667E-662B-4013-8E06-AACB76ABAC0E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E48A20F8-9D3A-4349-A5B9-431C80CB395A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E48A20F8-9D3A-4349-A5B9-431C80CB395A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E48A20F8-9D3A-4349-A5B9-431C80CB395A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,6 +54,10 @@ Global
 		{38A6485D-4309-43D7-BA3D-92A8DAF73886}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38A6485D-4309-43D7-BA3D-92A8DAF73886}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38A6485D-4309-43D7-BA3D-92A8DAF73886}.Release|Any CPU.Build.0 = Release|Any CPU
+		{913C741D-B67B-449D-9476-0799655F61D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{913C741D-B67B-449D-9476-0799655F61D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{913C741D-B67B-449D-9476-0799655F61D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{913C741D-B67B-449D-9476-0799655F61D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

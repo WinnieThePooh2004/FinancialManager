@@ -2,7 +2,7 @@
 using FinancialManager.Shared.DTOs;
 using FinancialManager.Shared.Interfaces.Services;
 
-namespace FinancialManager.Controllers
+namespace FinancialManager.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

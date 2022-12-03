@@ -1,4 +1,4 @@
-﻿using FinancialManager.Controllers;
+﻿using FinancialManager.Api.Controllers;
 using FinancialManager.Domain.Validatiors;
 using FinancialManager.Shared.DTOs;
 using FinancialManager.Shared.Interfaces.Services;

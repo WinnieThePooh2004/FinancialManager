@@ -1,6 +1,5 @@
-using FinancialManager.Frontend;
 
-namespace FilterManagmentSystem.FrontEnd
+namespace FinancialManager.Frontend
 {
     public class Program
     {

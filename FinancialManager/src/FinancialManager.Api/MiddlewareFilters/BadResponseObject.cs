@@ -1,4 +1,4 @@
-﻿namespace FinancialManager.MiddlewareFilters
+﻿namespace FinancialManager.Api.MiddlewareFilters
 {
 	public class BadResponseObject
 	{

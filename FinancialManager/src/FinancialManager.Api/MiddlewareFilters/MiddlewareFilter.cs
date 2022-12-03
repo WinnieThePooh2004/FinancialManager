@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinancialManager.MiddlewareFilters
+namespace FinancialManager.Api.MiddlewareFilters
 {
 	public class MiddlewareExceptionFilter : IActionFilter, IOrderedFilter
 	{
