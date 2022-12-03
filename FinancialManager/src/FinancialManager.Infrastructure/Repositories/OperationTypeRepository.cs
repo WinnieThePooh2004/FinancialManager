@@ -2,6 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using FinancialManager.Shared.Models;
 using FinancialManager.Shared.Interfaces.Repositiories;
+using Microsoft.Extensions.Logging;
+using FinancialManager.Shared.Extentions;
+
+#nullable disable
 
 namespace FinancialManager.Infrastructure.Repositiories
 {
@@ -9,10 +13,11 @@ namespace FinancialManager.Infrastructure.Repositiories
     public class OperationTypeRepository : ICRUDRepository<OperationType>
     {
         private readonly FinancialManagerContext _context;
-
-        public OperationTypeRepository(FinancialManagerContext context) 
+        private readonly ILogger _logger;
+        public OperationTypeRepository(FinancialManagerContext context, ILogger<OperationTypeRepository> logger) 
         { 
             _context = context;
+            _logger = logger;
         }
 
         public async Task<OperationType> CreateAsync(OperationType entity)
@@ -24,10 +29,12 @@ namespace FinancialManager.Infrastructure.Repositiories
 
         public async Task<OperationType> DeleteAsync(int id)
         {
-            var type = await _context.OperationTypes.FirstOrDefaultAsync(f => f.Id == id);
+            var type = await _context.OperationTypes
+                .Include(o => o.Operations)
+                .FirstOrDefaultAsync(f => f.Id == id);
             if (type is null)
             {
-                throw new ObjectNotFoundByIdException(typeof(OperationType), id);
+                _logger.LogAndThrow(new ObjectNotFoundByIdException(typeof(OperationType), id));
             }
             _context.OperationTypes.Remove(type);
             await _context.SaveChangesAsync();
@@ -44,7 +51,7 @@ namespace FinancialManager.Infrastructure.Repositiories
             var type = await _context.OperationTypes.FirstOrDefaultAsync(f => f.Id == id);
             if (type is null) 
             {
-                throw new ObjectNotFoundByIdException(typeof(OperationType), id);
+                _logger.LogAndThrow(new ObjectNotFoundByIdException(typeof(OperationType), id));
             }
             return type;
         }
@@ -53,7 +60,7 @@ namespace FinancialManager.Infrastructure.Repositiories
         {
             if (!_context.OperationTypes.Any(type => type.Id == entity.Id))
             {
-                throw new Exception("Not found");
+                _logger.LogAndThrow(new ObjectNotFoundByIdException(typeof(OperationType), entity.Id));
             }
             _context.OperationTypes.Update(entity);
             await _context.SaveChangesAsync();
@@ -61,3 +68,5 @@ namespace FinancialManager.Infrastructure.Repositiories
         }
     }
 }
+
+#nullable enable

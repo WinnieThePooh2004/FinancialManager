@@ -31,7 +31,7 @@ builder.Services.AddAutoMapper(Assembly.Load("FinancialManager.Domain"));
 
 builder.Services.AddScoped<ICRUDService<FinancialOperationDTO>, FinancialOperationService>();
 builder.Services.AddScoped<ICRUDService<OperationTypeDTO>, OperationTypeService>();
-builder.Services.AddScoped<ICRUDRepository<FinancialOperation>, FinantialOperationRepository>();
+builder.Services.AddScoped<ICRUDRepository<FinancialOperation>, FinancialOperationRepository>();
 builder.Services.AddScoped<ICRUDRepository<OperationType>, OperationTypeRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
@@ -56,3 +56,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{
+
+}
